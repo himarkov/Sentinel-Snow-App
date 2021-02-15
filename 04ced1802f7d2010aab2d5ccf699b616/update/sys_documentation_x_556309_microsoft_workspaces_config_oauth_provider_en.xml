@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="oauth_provider" label="OAuth provider" language="en" table="x_556309_microsoft_workspaces_config">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>oauth_provider</element>
+            <help/>
+            <hint/>
+            <label>OAuth provider</label>
+            <language>en</language>
+            <name>x_556309_microsoft_workspaces_config</name>
+            <plural>OAuth providers</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-02-15 19:44:42</sys_created_on>
+            <sys_id>2d66986a2f9a6010b57ebab62799b663</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>OAuth provider</sys_name>
+            <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+            <sys_update_name>sys_documentation_x_556309_microsoft_workspaces_config_oauth_provider_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-02-15 19:44:42</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

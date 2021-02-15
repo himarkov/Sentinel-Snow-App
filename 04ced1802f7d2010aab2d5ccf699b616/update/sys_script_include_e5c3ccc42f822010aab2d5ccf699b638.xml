@@ -10,7 +10,7 @@
         <script><![CDATA[
 //---------------------------------------------------------------
 // Get incident entities 
-function getIncidentEntities (incidentId, format) {
+function getIncidentEntities (environment, incidentId, format) {
 
     var hasNext = false;
     var filter = null;
@@ -18,7 +18,7 @@ function getIncidentEntities (incidentId, format) {
 
     // Prepare request
     incidentId = incidentId + '/entities';
-    var pagedRequest = buildRESTMessageV2(null, 'post', filter, incidentId);
+    var pagedRequest = buildRESTMessageV2(environment, null, 'post', filter, incidentId);
 
     do {    
         // Request Sentinel incidents
@@ -40,7 +40,7 @@ function getIncidentEntities (incidentId, format) {
 
             hasNext = true;
             var skip = getSkipToken(pagedObj['nextLink']);
-            pagedRequest = buildRESTMessageV2(skip, 'post', filter, incidentId); 
+            pagedRequest = buildRESTMessageV2(environment, skip, 'post', filter, incidentId); 
         }
         else {
             hasNext = false;
@@ -97,13 +97,13 @@ function entitiesToHtmlTable (entities) {
         <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
         <sys_created_on>2021-01-26 13:43:20</sys_created_on>
         <sys_id>e5c3ccc42f822010aab2d5ccf699b638</sys_id>
-        <sys_mod_count>14</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>getIncidentEntities</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_e5c3ccc42f822010aab2d5ccf699b638</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-12 09:43:06</sys_updated_on>
+        <sys_updated_on>2021-02-15 18:44:25</sys_updated_on>
     </sys_script_include>
 </record_update>

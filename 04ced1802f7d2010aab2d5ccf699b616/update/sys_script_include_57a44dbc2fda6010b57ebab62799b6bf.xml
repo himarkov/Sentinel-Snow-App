@@ -9,7 +9,7 @@
         <name>createIncidents</name>
         <script><![CDATA[//---------------------------------------------------------------
 // Create new ServiceNow incidents
-function createIncidents (incidents) {
+function createIncidents (environment, incidents) {
 
     var callerId = gs.getProperty('x_556309_microsoft.callerId');
     var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
@@ -29,7 +29,7 @@ function createIncidents (incidents) {
         if(!myObj.next()) {
             myObj.initialize();
             myObj.short_description = incidents[i].properties.title + ' - Incident number: ' + incidents[i].properties.incidentNumber;
-            myObj.description = 'Azure Sentinel incident: ' + incidents[i].properties.incidentNumber + '\nDescription: ' + incidents[i].properties.description + '\nProducts: ' + incidents[i].properties.additionalData.alertProductNames.join() + '\nTactics: ' + incidents[i].properties.additionalData.tactics.join(', ') + '\nIncident link: ' + incidents[i].properties.incidentUrl;
+            myObj.description = 'Environment: ' + environment.environment_name + '\nAzure Sentinel incident: ' + incidents[i].properties.incidentNumber + '\nDescription: ' + incidents[i].properties.description + '\nProducts: ' + incidents[i].properties.additionalData.alertProductNames.join() + '\nTactics: ' + incidents[i].properties.additionalData.tactics.join() + '\nIncident link: ' + incidents[i].properties.incidentUrl + '\nEnvironmentID: ' + environment.environment_id;
             
             switch(incidents[i].properties.severity.toLowerCase()) {
                 case 'low': incidentSeverity = 3; break;
@@ -78,26 +78,26 @@ function createIncidents (incidents) {
             myObj = new GlideRecord(incidentTable);
             myObj.get(record);
             myObj.setWorkflow(false);
-            myObj.work_notes = "[code]<div class='snow'><a href='" + incidents[i].properties.incidentUrl + "' target='_blank'>Azure Sentinel incident link</a></div>[/code]";
+            myObj.work_notes = "[code]<div class=\"snow\"><a href='" + incidents[i].properties.incidentUrl + "' target='_blank'>Azure Sentinel incident link</a></div>[/code]";
             myObj.update();
 
             // Add incident alerts details
-			var html = getIncidentAlerts(incidents[i].name, 'html');
+			var html = getIncidentAlerts(environment, incidents[i].name, 'html');
             if(html) {
                 myObj.setWorkflow(false);
-                myObj.work_notes = '[code]<div class="snow">' + html + '</div>[/code]';
+                myObj.work_notes = '[code]' + html + '[/code]';
                 myObj.update();
             }
 
             // Add incident entities to Snow
-            var html = getIncidentEntities(incidents[i].name, 'html');
+            var html = getIncidentEntities(environment, incidents[i].name, 'html');
             if(html) {
                 myObj.setWorkflow(false);
-                myObj.work_notes = '[code]<div class="snow">' + html + '</div>[/code]';
+                myObj.work_notes = '[code]' + html + '[/code]';
                 myObj.update();
             }
             //Add Sentinel comments to work notes
-            var comments = getIncidentComments(incidents[i].name);
+            var comments = getIncidentComments(environment, incidents[i].name);
             if(comments) {
                 comments.forEach(function (comment){
                     myObj.work_notes = '[code]<div class="snow"><b>CreatedTimeUtc: </b>' + comment.properties.createdTimeUtc + '<br><b>Author: </b>' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '<p><b>Message:</b><br>' + comment.properties.message + '</p></div>[/code]';
@@ -113,13 +113,13 @@ function createIncidents (incidents) {
             }];
             var properties = incidents[i].properties;
             properties.labels = labelIncidentId;
-            updateSentinelIncident(incidents[i].name, properties);
+            updateSentinelIncident(environment, incidents[i].name, properties);
             
             // Adds SNOW incident link in Sentinel
             try {
-                var incidentUrl = createUrlForObject('incident', record);
+                var incidentUrl = createUrlForObject(incidentTable, record);
                 var msg = '<div class="snow">' + incidentUrl + '</div>';
-                var httpStatus = addIncidentComments(incidents[i].name, msg);
+                var httpStatus = addIncidentComments(environment, incidents[i].name, msg);
                 if(httpStatus != 201) {
                     log('ERROR: incident ' + myObj.number  + '\n' + httpStatus + ' - Comment not added to Sentinel\n' + msg);
                 }
@@ -148,13 +148,13 @@ function createUrlForObject(table_name, sys_id){
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-02-10 12:38:23</sys_created_on>
         <sys_id>57a44dbc2fda6010b57ebab62799b6bf</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>createIncidents</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_57a44dbc2fda6010b57ebab62799b6bf</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-12 10:03:23</sys_updated_on>
+        <sys_updated_on>2021-02-15 19:33:56</sys_updated_on>
     </sys_script_include>
 </record_update>
