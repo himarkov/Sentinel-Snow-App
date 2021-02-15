@@ -74,7 +74,7 @@
             newComments = getIncidentComments(modifiedIncidents[i].name, modifiedLastSync); //returns added comments since last sync
             if(newComments.length > 0) {
                 newComments.forEach(function (comment) {
-                    myObj.work_notes = '[code]<b>CreatedTimeUtc: </b>' + comment.properties.createdTimeUtc + '<br><b>Author: </b>' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '<p><b>Message:</b><br>' + comment.properties.message + '</p>[/code]';
+                    myObj.work_notes = '[code]<div class="snow"><b>CreatedTimeUtc: </b>' + comment.properties.createdTimeUtc + '<br><b>Author: </b>' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '<p><b>Message:</b><br>' + comment.properties.message + '</p></div>[/code]';
                     myObj.update();
                     addedComments++;
                 });
@@ -87,8 +87,7 @@
             
         }
         else {
-            //log('Modified incident ' + modifiedIncidents[i].name + ' not found in ServiceNow');
-			var incidentToCreate = []; 
+            var incidentToCreate = []; 
 			incidentToCreate.push(modifiedIncidents[i]);
             createIncidents(incidentToCreate);
         }
@@ -96,18 +95,19 @@
     
     return updatedIncidents;
 }
+
 ]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-02-10 12:36:40</sys_created_on>
         <sys_id>8744c9bc2fda6010b57ebab62799b63b</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>updateChangedIncidents</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_8744c9bc2fda6010b57ebab62799b63b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-10 12:54:36</sys_updated_on>
+        <sys_updated_on>2021-02-12 09:08:41</sys_updated_on>
     </sys_script_include>
 </record_update>
