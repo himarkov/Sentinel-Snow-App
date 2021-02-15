@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Workspaces Configuration" max_length="40" name="x_556309_microsoft_workspaces_config" type="collection">
+        <element default="Name to identify the workspace purpose/environment" label="Environment Name" mandatory="true" max_length="100" name="environment_name" type="string"/>
+        <element default="Azure Sentinel Workspace Resource group name" label="Resource Group" mandatory="true" max_length="200" name="resource_group" type="string"/>
+        <element default="Azure Sentinel Workspace subscription ID" label="Subscription" mandatory="true" max_length="100" name="subscription" type="string"/>
+        <element default="Azure Sentinel Workspace name" label="Workspace" mandatory="true" max_length="50" name="workspace" type="string"/>
+    </element>
+</database>

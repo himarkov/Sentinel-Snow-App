@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <before>false</before>
+        <description>This script initialize the sync times properties from sentinelUtils and a dummy workspace configuration</description>
+        <flush_cache>false</flush_cache>
+        <name>tablesInit</name>
+        <record_for_rollback>false</record_for_rollback>
+        <run_once>true</run_once>
+        <script><![CDATA[// Script initiating the sentinelUtils and API parameters
+// Initialize the last syncs back to 30 days
+var date = new Date();
+date.setDate(date.getDate() - 30);
+var lastSync = date.toISOString();
+
+
+var utils = new GlideRecord("x_556309_microsoft_systemutils");
+utils.newRecord();
+utils.property = 'newIncidentsLastSync';
+utils.value = lastSync;
+utils.insert();
+
+utils = new GlideRecord("x_556309_microsoft_systemutils");
+utils.newRecord();
+utils.property = 'modifiedIncidentsLastSync';
+utils.value = lastSync;
+utils.insert();
+]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-15 09:43:17</sys_created_on>
+        <sys_id>4cac8a1e2f166010b57ebab62799b61c</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>tablesInit</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_fix_4cac8a1e2f166010b57ebab62799b61c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-15 10:03:07</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+</record_update>
