@@ -25,7 +25,6 @@ for(var i = 0; i < workspaces.length; i++) {
         // Get all new incidents from Azure Sentinel API
 		log('Environment: ' + workspaces[i].environment_name + ' - retrieveing new incidents...');
         var incidents = getSentinelIncidents(workspaces[i]); //returns incidents for the passed environment
-        updateLastSync('newIncidentsLastSync');
 
         log('Environment: ' + workspaces[i].environment_name + ' - Azure Sentinel API returned ' + incidents.length + ' new incidents.');
 
@@ -40,19 +39,22 @@ for(var i = 0; i < workspaces.length; i++) {
         var message = ex.message;
         log('Environment: ' + workspaces[i].environment_name + ' ERROR main createNewIncidents: ' + message);
     }
-}]]></script>
+}
+
+updateLastSync('newIncidentsLastSync');
+]]></script>
         <sys_class_name>sysauto_script</sys_class_name>
         <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
         <sys_created_on>2021-01-14 11:22:24</sys_created_on>
         <sys_id>531e258c2f7d2010aab2d5ccf699b6f3</sys_id>
-        <sys_mod_count>326</sys_mod_count>
+        <sys_mod_count>327</sys_mod_count>
         <sys_name>createNewIncidents_job</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy/>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sysauto_script_531e258c2f7d2010aab2d5ccf699b6f3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-16 14:48:33</sys_updated_on>
+        <sys_updated_on>2021-02-16 20:09:33</sys_updated_on>
         <time_zone/>
         <upgrade_safe>false</upgrade_safe>
     </sysauto_script>
