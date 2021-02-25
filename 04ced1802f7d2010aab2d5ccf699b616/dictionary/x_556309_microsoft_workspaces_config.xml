@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
-    <element label="Workspaces Configuration" max_length="40" name="x_556309_microsoft_workspaces_config" sizeclass="2" type="collection">
+    <element label="Workspaces Configuration" max_length="40" name="x_556309_microsoft_workspaces_config" sizeclass="3" type="collection">
         <element default="ServiceNow caller ID" label="Caller ID" mandatory="true" max_length="50" name="caller_id" type="string"/>
         <element default="Notes about this Azure Sentinel workspace configuration" label="Description" max_length="200" name="description" type="string"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Environment ID" max_length="40" name="environment_id" type="string"/>
