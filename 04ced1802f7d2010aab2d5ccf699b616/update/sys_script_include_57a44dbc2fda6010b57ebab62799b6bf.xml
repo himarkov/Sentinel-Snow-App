@@ -62,7 +62,6 @@ function createIncidents (environment, incidents) {
             
             // Correlation id is used to link the SNOW incident to Sentinel incident
             myObj.setValue(incidentUniqueKey, incidents[i].name);
-			//myObj.correlation_id = incidents[i].name;
             myObj.caller_id = callerId;
             
             // record contains the snow incident id and incident is saved in the database
@@ -86,7 +85,7 @@ function createIncidents (environment, incidents) {
 			var html = getIncidentAlerts(environment, incidents[i].name, 'html');
             if(html) {
                 myObj.setWorkflow(false);
-                myObj.work_notes = '[code]' + html + '[/code]';
+                myObj.work_notes = '[code]<h2>Alerts</h2>' + html + '[/code]';
                 myObj.update();
             }
 
@@ -94,7 +93,7 @@ function createIncidents (environment, incidents) {
             var html = getIncidentEntities(environment, incidents[i].name, 'html');
             if(html) {
                 myObj.setWorkflow(false);
-                myObj.work_notes = '[code]' + html + '[/code]';
+                myObj.work_notes = '[code]<h2>Entities</h2>' + html + '[/code]';
                 myObj.update();
             }
             //Add Sentinel comments to work notes
@@ -149,13 +148,13 @@ function createUrlForObject(table_name, sys_id){
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-02-10 12:38:23</sys_created_on>
         <sys_id>57a44dbc2fda6010b57ebab62799b6bf</sys_id>
-        <sys_mod_count>19</sys_mod_count>
+        <sys_mod_count>20</sys_mod_count>
         <sys_name>createIncidents</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_57a44dbc2fda6010b57ebab62799b6bf</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-18 16:20:30</sys_updated_on>
+        <sys_updated_on>2021-03-02 15:51:01</sys_updated_on>
     </sys_script_include>
 </record_update>

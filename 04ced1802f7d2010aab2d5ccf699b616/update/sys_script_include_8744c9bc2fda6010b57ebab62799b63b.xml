@@ -79,8 +79,27 @@
                     addedComments++;
                 });
             }
+		/*
+            // add new alerts sync
+            var htmlAlerts = getIncidentAlerts(environment, incidents[i].name, 'html', modifiedLastSync);
+            if(htmlAlerts) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]<h2>Alerts (updated)</h2>' + htmlAlerts + '[/code]';
+                myObj.update();
 
-            
+                // Add incident entities to Snow
+                var htmlEntities = getIncidentEntities(environment, incidents[i].name, 'html');
+                if(htmlEntities) {
+                    myObj.setWorkflow(false);
+                    myObj.work_notes = '[code]<h2>Entities (updated)</h2>' + htmlEntities + '[/code]';
+                    myObj.update();
+                }
+
+                log('Incident ' + myObj.number + ' has been updated with new alerts.');
+
+            }*/
+
+
             if(addedComments > 0 || changes.length > 0) {
                 log('Incident ' + myObj.number + ' has been updated\nChanges: ' + JSON.stringify(changes) + '\nNew comments: ' + addedComments);
             }
@@ -101,13 +120,13 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-02-10 12:36:40</sys_created_on>
         <sys_id>8744c9bc2fda6010b57ebab62799b63b</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>13</sys_mod_count>
         <sys_name>updateChangedIncidents</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_8744c9bc2fda6010b57ebab62799b63b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-15 18:29:36</sys_updated_on>
+        <sys_updated_on>2021-03-02 15:53:47</sys_updated_on>
     </sys_script_include>
 </record_update>
