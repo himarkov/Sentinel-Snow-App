@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="" label="ServiceNow State to Sentinel" language="en" table="x_556309_microsoft_servicenow_state_to_sentinel">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element/>
+            <help/>
+            <hint/>
+            <label>ServiceNow State to Sentinel</label>
+            <language>en</language>
+            <name>x_556309_microsoft_servicenow_state_to_sentinel</name>
+            <plural>ServiceNow State to Sentinels</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-03-26 12:54:44</sys_created_on>
+            <sys_id>d09eebba2fcb2010b57ebab62799b6bb</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>ServiceNow State to Sentinel</sys_name>
+            <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+            <sys_update_name>sys_documentation_x_556309_microsoft_servicenow_state_to_sentinel__en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-03-26 12:54:44</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>
