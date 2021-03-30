@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.getIncidentEntities</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>getIncidentEntities</name>
+        <script><![CDATA[//---------------------------------------------------------------
+// Get incident entities 
+function getIncidentEntities (environment, incidentId, format) {
+
+    var hasNext = false;
+    var filter = null;
+    var entities = [];
+
+    // Prepare request
+    incidentId = incidentId + '/entities';
+    var pagedRequest = buildRESTMessageV2(environment, null, 'post', filter, incidentId);
+
+    do {    
+        // Request Sentinel incidents
+        var pagedResponse = pagedRequest.execute();
+        var pagedResponseBody = pagedResponse.getBody();
+        var pagedhttpStatus = pagedResponse.getStatusCode();
+        var pagedObj = JSON.parse(pagedResponseBody);
+
+        if(pagedhttpStatus == 200) {
+            
+            entities = entities.concat(pagedObj.entities);
+        }
+        else {
+            log('Error code: ' + pagedhttpStatus + '\nMessage:\n' + pagedResponseBody);
+        }
+
+
+        if (pagedObj['nextLink']) { // if true, more incidents available
+
+            hasNext = true;
+            var skip = getSkipToken(pagedObj['nextLink']);
+            pagedRequest = buildRESTMessageV2(environment, skip, 'post', filter, incidentId); 
+        }
+        else {
+            hasNext = false;
+        }
+
+    }while (hasNext);
+    
+    // Compose entities objects
+    try {
+        if(entities.length > 0){
+            //log('entities: ' + JSON.stringify(entities));
+            var entitiesList = entities.map(function(entity) {
+                return {
+                    "type": entity.kind,
+                    "details": entity.properties
+                };
+            });
+
+            if(format.toLowerCase() === 'html') {
+                return entitiesToHtmlTable(entitiesList);
+            }
+            else {
+                return entitiesList;
+            }
+        }
+        else {
+            return null;
+        }
+    }
+    catch (ex) {
+        var message = ex.message;
+        log('ERROR getIncidentEntities: ' + message);
+    }
+}
+
+
+
+function entitiesToHtmlTable (entities) {
+    
+    var htmlTable = '<div class="snow"><table style="width: 100%; font-family: arial, sans-serif; border-collapse: collapse"><thead><tr style="border: 1px solid black"><th style="background-color: #dddddd; text-align: left;padding: 8px; width: 10%;">EntityType</th><th style="background-color: #dddddd; text-align:center; padding: 8px;">EntityDetails</th></tr></thead><tbody>';
+    
+    for (var i = 0; i < entities.length; i++) {
+        var tr = '<tr style="border: 1px solid black"><th style="text-align: left; padding: 8px; background-color: #dddddd;">';
+
+        tr += entities[i].type + '</th><td style="text-align: left; padding: 8px">';
+        
+        var keys = Object.keys(entities[i].details);
+        var propTable = '<table>';
+
+        for (var j = 0; j < keys.length; j++) {
+            var value = '';
+            if(entities[i].details[keys[j].toString()] instanceof Object) {
+                value = JSON.stringify(entities[i].details[keys[j].toString()]);
+            }
+            else {
+                value = entities[i].details[keys[j].toString()].toString();
+            }
+
+            propTable += '<tr><th>' + keys[j] + '</th><td>' + value + '</td></tr>';
+        }
+
+        propTable += '</table>';
+        tr += propTable;
+        tr += '</td></tr>';
+        
+        
+        htmlTable += tr;
+    }
+
+    htmlTable += '</tbody></table></div>'; //closing table
+
+    return htmlTable;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-26 13:43:20</sys_created_on>
+        <sys_id>e5c3ccc42f822010aab2d5ccf699b638</sys_id>
+        <sys_mod_count>40</sys_mod_count>
+        <sys_name>getIncidentEntities</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_e5c3ccc42f822010aab2d5ccf699b638</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-25 13:10:50</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_e5c3ccc42f822010aab2d5ccf699b638</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_556309_microsoft.getIncidentEntities&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;getIncidentEntities&lt;/name&gt;&lt;script&gt;&lt;![CDATA[//---------------------------------------------------------------
+// Get incident entities 
+function getIncidentEntities (environment, incidentId, format) {
+
+    var hasNext = false;
+    var filter = null;
+    var entities = [];
+
+    // Prepare request
+    incidentId = incidentId + '/entities';
+    var pagedRequest = buildRESTMessageV2(environment, null, 'post', filter, incidentId);
+
+    do {    
+        // Request Sentinel incidents
+        var pagedResponse = pagedRequest.execute();
+        var pagedResponseBody = pagedResponse.getBody();
+        var pagedhttpStatus = pagedResponse.getStatusCode();
+        var pagedObj = JSON.parse(pagedResponseBody);
+
+        if(pagedhttpStatus == 200) {
+            
+            entities = entities.concat(pagedObj.entities);
+        }
+        else {
+            log('Error code: ' + pagedhttpStatus + '\nMessage:\n' + pagedResponseBody);
+        }
+
+
+        if (pagedObj['nextLink']) { // if true, more incidents available
+
+            hasNext = true;
+            var skip = getSkipToken(pagedObj['nextLink']);
+            pagedRequest = buildRESTMessageV2(environment, skip, 'post', filter, incidentId); 
+        }
+        else {
+            hasNext = false;
+        }
+
+    }while (hasNext);
+    
+    // Compose entities objects
+    try {
+        if(entities.length &gt; 0){
+            //log('entities: ' + JSON.stringify(entities));
+            var entitiesList = entities.map(function(entity) {
+                return {
+                    "type": entity.kind,
+                    "details": entity.properties
+                };
+            });
+
+            if(format.toLowerCase() === 'html') {
+                return entitiesToHtmlTable(entitiesList);
+            }
+            else {
+                return entitiesList;
+            }
+        }
+        else {
+            return null;
+        }
+    }
+    catch (ex) {
+        var message = ex.message;
+        log('ERROR getIncidentEntities: ' + message);
+    }
+}
+
+
+
+function entitiesToHtmlTable (entities) {
+    
+    var htmlTable = '&lt;div class="snow"&gt;&lt;table style="width: 100%; font-family: arial, sans-serif; border-collapse: collapse"&gt;&lt;thead&gt;&lt;tr style="border: 1px solid black"&gt;&lt;th style="background-color: #dddddd; text-align: left;padding: 8px; width: 10%;"&gt;EntityType&lt;/th&gt;&lt;th style="background-color: #dddddd; text-align:center; padding: 8px;"&gt;EntityDetails&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;';
+    
+    for (var i = 0; i &lt; entities.length; i++) {
+        var tr = '&lt;tr style="border: 1px solid black"&gt;&lt;th style="text-align: left; padding: 8px; background-color: #dddddd;"&gt;';
+
+        tr += entities[i].type + '&lt;/th&gt;&lt;td style="text-align: left; padding: 8px"&gt;';
+        
+        var keys = Object.keys(entities[i].details);
+        var propTable = '&lt;table&gt;';
+
+        for (var j = 0; j &lt; keys.length; j++) {
+            var value = '';
+            if(entities[i].details[keys[j].toString()] instanceof Object) {
+                value = JSON.stringify(entities[i].details[keys[j].toString()]);
+            }
+            else {
+                value = entities[i].details[keys[j].toString()].toString();
+            }
+
+            propTable += '&lt;tr&gt;&lt;th&gt;' + keys[j] + '&lt;/th&gt;&lt;td&gt;' + value + '&lt;/td&gt;&lt;/tr&gt;';
+        }
+
+        propTable += '&lt;/table&gt;';
+        tr += propTable;
+        tr += '&lt;/td&gt;&lt;/tr&gt;';
+        
+        
+        htmlTable += tr;
+    }
+
+    htmlTable += '&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'; //closing table
+
+    return htmlTable;
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;sebmolendijk@hotmail.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2021-01-26 13:43:20&lt;/sys_created_on&gt;&lt;sys_id&gt;e5c3ccc42f822010aab2d5ccf699b638&lt;/sys_id&gt;&lt;sys_mod_count&gt;40&lt;/sys_mod_count&gt;&lt;sys_name&gt;getIncidentEntities&lt;/sys_name&gt;&lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_e5c3ccc42f822010aab2d5ccf699b638&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2021-02-25 13:10:50&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1223784844</payload_hash>
+        <record_name>getIncidentEntities</record_name>
+        <reverted_from/>
+        <source>4496ed102f422010b57ebab62799b61c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-25 13:10:50</sys_created_on>
+        <sys_id>d12c1ea12fee2010b57ebab62799b687</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>177d9503cae0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-25 13:10:50</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>1d2c1ea1d8ee2010daa7f1a2776b5d86</update_guid>
+        <update_guid_history>1d2c1ea1d8ee2010daa7f1a2776b5d86:1223784844,44eb1ea199ee20109101acd72d23f9da:1742601895,1bbad6a189ee2010d8c6a37b380fc4ba:1223784844,09f9de612aee2010fc956bba70acd716:-276002521,50b9da6116ee201068d67a7841357963:-722682539,15599661f6ee20102486d2a03674ed96:-413558032,08e85261c7ee20102cbd227c949160c5:-916790041,41089aed63ae2010492b5cc5ac89be3d:-956518456,4e3716ed63ae2010065837aea758da66:-687981678,b4a692ed45ae2010b6306afdea5eb242:-916790041,fd2652edb7ae20108da2b6b26f485e9a:16245205,18b49e6d4cae201059d97d9c481d8416:-1922883594,cc73d26da9ae201051e73b5812643071:911211875,0692d62d74ae201078f26c90508c297f:-748466599,ef71d2e9c6ae20107e6d4530f0f5a32f:-862846140,13df86a973ae2010f8097a80c33d1e38:566895259,b55f82a97bae2010a39e102c44459a17:137024806,05d63d69c96e2010285322740a487bc1:-1277445314,8796f969906e20108c9d428a6ad01a7b:49817630,2295f5299d6e2010076f8170c6671324:1241498560,1b9431294c6e201082e717f01580c7ec:-292944819,461439e50d6e2010018325c20ae09acd:1690042755,f72331e5b76e2010d2d21fe41260b7b1:1145260829,2abaee6b955a2410f57b83bd677abf29:152205665,9a988022329a60103aacad8264adfb39:-1120308472,4c77af5ace1a601018419c8f2a243982:1796069495,37efee15d716e010721aedb809e0d297:-1083605515,87c0b0204e526010bbe9a0bf6392c79a:-114079744,08862950bc422010810eafa9bc961b22:-1521672831</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-29 10:02:49</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>383cb907c890467590eeb85cae7654a9</sys_id>
+        <sys_metadata>e5c3ccc42f822010aab2d5ccf699b638</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>getIncidentEntities</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_e5c3ccc42f822010aab2d5ccf699b638</sys_update_name>
+        <sys_update_version display_value="sys_script_include_e5c3ccc42f822010aab2d5ccf699b638">d12c1ea12fee2010b57ebab62799b687</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-29 10:02:49</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

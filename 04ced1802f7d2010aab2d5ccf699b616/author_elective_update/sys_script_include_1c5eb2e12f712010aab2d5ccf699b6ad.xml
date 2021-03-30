@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.log</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>log</name>
+        <script><![CDATA[//---------------------------------------------------------------
+// Log messages in system log
+function log(msg) {
+	gs.info(msg);
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-19 08:53:53</sys_created_on>
+        <sys_id>1c5eb2e12f712010aab2d5ccf699b6ad</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>log</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_1c5eb2e12f712010aab2d5ccf699b6ad</sys_update_name>
+        <sys_updated_by>sebmolendijk@hotmail.com</sys_updated_by>
+        <sys_updated_on>2021-01-19 08:53:53</sys_updated_on>
+    </sys_script_include>
+<sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_1c5eb2e12f712010aab2d5ccf699b6ad</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;
+    &lt;sys_script_include action="INSERT_OR_UPDATE"&gt;
+        &lt;access&gt;package_private&lt;/access&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;api_name&gt;x_556309_microsoft.log&lt;/api_name&gt;
+        &lt;caller_access/&gt;
+        &lt;client_callable&gt;false&lt;/client_callable&gt;
+        &lt;description/&gt;
+        &lt;name&gt;log&lt;/name&gt;
+        &lt;script&gt;&lt;![CDATA[//---------------------------------------------------------------
+// Log messages in system log
+function log(msg) {
+	gs.info(msg);
+}]]&gt;&lt;/script&gt;
+        &lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;
+        &lt;sys_created_by&gt;sebmolendijk@hotmail.com&lt;/sys_created_by&gt;
+        &lt;sys_created_on&gt;2021-01-19 08:53:53&lt;/sys_created_on&gt;
+        &lt;sys_id&gt;1c5eb2e12f712010aab2d5ccf699b6ad&lt;/sys_id&gt;
+        &lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;
+        &lt;sys_name&gt;log&lt;/sys_name&gt;
+        &lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;
+        &lt;sys_policy&gt;read&lt;/sys_policy&gt;
+        &lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;
+        &lt;sys_update_name&gt;sys_script_include_1c5eb2e12f712010aab2d5ccf699b6ad&lt;/sys_update_name&gt;
+        &lt;sys_updated_by&gt;sebmolendijk@hotmail.com&lt;/sys_updated_by&gt;
+        &lt;sys_updated_on&gt;2021-01-19 08:53:53&lt;/sys_updated_on&gt;
+    &lt;/sys_script_include&gt;
+&lt;/record_update&gt;</payload>
+        <payload_hash>1414785973</payload_hash>
+        <record_name>log</record_name>
+        <reverted_from/>
+        <source>c276a5502f422010b57ebab62799b63b</source>
+        <source_table>sys_upgrade_history</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-01-27 15:32:38</sys_created_on>
+        <sys_id>7376e5502f422010b57ebab62799b6e5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1774479a54a0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-01-27 15:32:38</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>3376e55069422010781822b9435ca6e5</update_guid>
+        <update_guid_history>3376e55069422010781822b9435ca6e5:1414785973</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-30 13:27:01</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>28db16ad9e084e5eb876bf2f24cd20b9</sys_id>
+        <sys_metadata>1c5eb2e12f712010aab2d5ccf699b6ad</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>log</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_1c5eb2e12f712010aab2d5ccf699b6ad</sys_update_name>
+        <sys_update_version display_value="sys_script_include_1c5eb2e12f712010aab2d5ccf699b6ad">7376e5502f422010b57ebab62799b6e5</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-30 13:27:01</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

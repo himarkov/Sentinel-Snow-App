@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.buildRESTMessageV2</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>buildRESTMessageV2</name>
+        <script><![CDATA[//---------------------------------------------------------------
+// This function build the ServiceNow REST message to get the Sentinel incients
+function buildRESTMessageV2(environment, skipToken, method, filter, incidentId, body) {
+
+    // Get app properties for API call
+    var subscription = environment.subscription; //gs.getProperty('x_556309_microsoft.subscription');
+    var resourceGroup = environment.resource_group; //gs.getProperty('x_556309_microsoft.resourceGroup');
+    var workspace = environment.workspace; //gs.getProperty('x_556309_microsoft.workspace');
+    var apiVersion = gs.getProperty('x_556309_microsoft.apiVersion');
+
+    if(incidentId)  {
+        if(incidentId.includes('/entities') || incidentId.includes('/alerts')) {
+            apiVersion = '2019-01-01-preview'; // alerts and entities only available through the preview version
+        }
+    }
+
+
+    // Compose API endpoint
+    var endpoint =  'https://management.azure.com/subscriptions/' + subscription + '/resourceGroups/' + resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/' + workspace + '/providers/Microsoft.SecurityInsights/incidents?';
+    var token = getAccessToken(environment);
+
+
+    request = new sn_ws.RESTMessageV2();
+
+    // Default method is GET
+    if(!method) {
+        method = 'get';
+    }
+    request.setHttpMethod(method);
+    
+    if(filter) {
+
+        request.setQueryParameter('$filter', filter);
+
+    }
+    if(incidentId) {
+        // asking for specific incident or for incident's comments
+        endpoint = endpoint.replace('incidents?', 'incidents/' + incidentId + '?');
+    }
+
+    if(skipToken) { 
+        request.setQueryParameter('$skipToken', skipToken);
+    }
+    if(body) {
+        request.setRequestBody(JSON.stringify(body));
+    }
+    
+    request.setEndpoint(endpoint);
+    request.setRequestHeader('Content-Type','application/json;odata=verbose');
+    request.setRequestHeader("Accept","application/json");
+    request.setRequestHeader('Authorization','Bearer ' + token.getAccessToken());
+
+    request.setQueryParameter('api-version', apiVersion);
+    
+    return request;
+
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-19 14:01:20</sys_created_on>
+        <sys_id>b6c400752f352010aab2d5ccf699b6a9</sys_id>
+        <sys_mod_count>35</sys_mod_count>
+        <sys_name>buildRESTMessageV2</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_b6c400752f352010aab2d5ccf699b6a9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-16 20:03:42</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_b6c400752f352010aab2d5ccf699b6a9</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_556309_microsoft.buildRESTMessageV2&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;buildRESTMessageV2&lt;/name&gt;&lt;script&gt;&lt;![CDATA[//---------------------------------------------------------------
+// This function build the ServiceNow REST message to get the Sentinel incients
+function buildRESTMessageV2(environment, skipToken, method, filter, incidentId, body) {
+
+    // Get app properties for API call
+    var subscription = environment.subscription; //gs.getProperty('x_556309_microsoft.subscription');
+    var resourceGroup = environment.resource_group; //gs.getProperty('x_556309_microsoft.resourceGroup');
+    var workspace = environment.workspace; //gs.getProperty('x_556309_microsoft.workspace');
+    var apiVersion = gs.getProperty('x_556309_microsoft.apiVersion');
+
+    if(incidentId)  {
+        if(incidentId.includes('/entities') || incidentId.includes('/alerts')) {
+            apiVersion = '2019-01-01-preview'; // alerts and entities only available through the preview version
+        }
+    }
+
+
+    // Compose API endpoint
+    var endpoint =  'https://management.azure.com/subscriptions/' + subscription + '/resourceGroups/' + resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/' + workspace + '/providers/Microsoft.SecurityInsights/incidents?';
+    var token = getAccessToken(environment);
+
+
+    request = new sn_ws.RESTMessageV2();
+
+    // Default method is GET
+    if(!method) {
+        method = 'get';
+    }
+    request.setHttpMethod(method);
+    
+    if(filter) {
+
+        request.setQueryParameter('$filter', filter);
+
+    }
+    if(incidentId) {
+        // asking for specific incident or for incident's comments
+        endpoint = endpoint.replace('incidents?', 'incidents/' + incidentId + '?');
+    }
+
+    if(skipToken) { 
+        request.setQueryParameter('$skipToken', skipToken);
+    }
+    if(body) {
+        request.setRequestBody(JSON.stringify(body));
+    }
+    
+    request.setEndpoint(endpoint);
+    request.setRequestHeader('Content-Type','application/json;odata=verbose');
+    request.setRequestHeader("Accept","application/json");
+    request.setRequestHeader('Authorization','Bearer ' + token.getAccessToken());
+
+    request.setQueryParameter('api-version', apiVersion);
+    
+    return request;
+
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;sebmolendijk@hotmail.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2021-01-19 14:01:20&lt;/sys_created_on&gt;&lt;sys_id&gt;b6c400752f352010aab2d5ccf699b6a9&lt;/sys_id&gt;&lt;sys_mod_count&gt;35&lt;/sys_mod_count&gt;&lt;sys_name&gt;buildRESTMessageV2&lt;/sys_name&gt;&lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_b6c400752f352010aab2d5ccf699b6a9&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2021-02-16 20:03:42&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1744974361</payload_hash>
+        <record_name>buildRESTMessageV2</record_name>
+        <reverted_from/>
+        <source>4496ed102f422010b57ebab62799b61c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-16 20:03:42</sys_created_on>
+        <sys_id>a1542d322f1aa010b57ebab62799b609</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>177ac70ff330000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-16 20:03:42</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>a9542d32e21aa0105fc73afb551ec108</update_guid>
+        <update_guid_history>a9542d32e21aa0105fc73afb551ec108:1744974361,ede121fe3dd6a0108b4abc3bce97b631:-1371905894,9cb06d3e7cd6a0105b815406daa5099c:1495096004,693f957ec0d6a0104de0130423b545d3:-682212750,f794632e6792a010a41ca3d4fdb91b4a:386767001,30176b5aae1a601093ce18b9290f57e6:1349657708,6eeb1f74770220109e9d1fc20673236d:-609963363,48862950b342201073d8375c2a56a201:2012123372</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-30 12:55:18</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>0869957c601746cf82e62cd11494aca9</sys_id>
+        <sys_metadata>b6c400752f352010aab2d5ccf699b6a9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>buildRESTMessageV2</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_b6c400752f352010aab2d5ccf699b6a9</sys_update_name>
+        <sys_update_version display_value="sys_script_include_b6c400752f352010aab2d5ccf699b6a9">a1542d322f1aa010b57ebab62799b609</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-30 12:55:18</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

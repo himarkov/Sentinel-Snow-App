@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.getSentinelWorkspaces</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>Return the different worspaces confis details</description>
+        <name>getSentinelWorkspaces</name>
+        <script><![CDATA[// Function to get all instances to collect the incidents from.
+// Workspaces configuration are stored in the "x_556309_microsoft_workspaces_config" (Workspaces Configuration) table
+
+function getSentinelWorkspaces () {
+    var gr = new GlideRecord('x_556309_microsoft_workspaces_config');
+    gr.query();
+    var configs = [];
+
+    while (gr.next()) {
+		var temp = {
+			"caller_id": gr.getValue('caller_id'),
+			"description": gr.getValue('description'),
+			"environment_id": gr.getValue('environment_id'),
+			"environment_name": gr.getValue('environment_name'),
+			"oauth_provider": gr.getValue('oauth_provider'),
+			"resource_group": gr.getValue('resource_group'),
+			"subscription": gr.getValue('subscription'),
+			"sys_id": gr.getValue('sys_id'),
+			"workspace": gr.getValue('workspace')
+			
+		};
+        configs.push(temp);
+    }
+
+    return configs;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-15 14:40:22</sys_created_on>
+        <sys_id>1aa013da2fd66010b57ebab62799b65d</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>getSentinelWorkspaces</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_1aa013da2fd66010b57ebab62799b65d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-16 15:45:07</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_1aa013da2fd66010b57ebab62799b65d</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_556309_microsoft.getSentinelWorkspaces&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description&gt;Return the different worspaces confis details&lt;/description&gt;&lt;name&gt;getSentinelWorkspaces&lt;/name&gt;&lt;script&gt;&lt;![CDATA[// Function to get all instances to collect the incidents from.
+// Workspaces configuration are stored in the "x_556309_microsoft_workspaces_config" (Workspaces Configuration) table
+
+function getSentinelWorkspaces () {
+    var gr = new GlideRecord('x_556309_microsoft_workspaces_config');
+    gr.query();
+    var configs = [];
+
+    while (gr.next()) {
+		var temp = {
+			"caller_id": gr.getValue('caller_id'),
+			"description": gr.getValue('description'),
+			"environment_id": gr.getValue('environment_id'),
+			"environment_name": gr.getValue('environment_name'),
+			"oauth_provider": gr.getValue('oauth_provider'),
+			"resource_group": gr.getValue('resource_group'),
+			"subscription": gr.getValue('subscription'),
+			"sys_id": gr.getValue('sys_id'),
+			"workspace": gr.getValue('workspace')
+			
+		};
+        configs.push(temp);
+    }
+
+    return configs;
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2021-02-15 14:40:22&lt;/sys_created_on&gt;&lt;sys_id&gt;1aa013da2fd66010b57ebab62799b65d&lt;/sys_id&gt;&lt;sys_mod_count&gt;15&lt;/sys_mod_count&gt;&lt;sys_name&gt;getSentinelWorkspaces&lt;/sys_name&gt;&lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_1aa013da2fd66010b57ebab62799b65d&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2021-02-16 15:45:07&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1075245415</payload_hash>
+        <record_name>getSentinelWorkspaces</record_name>
+        <reverted_from/>
+        <source>4496ed102f422010b57ebab62799b61c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-16 15:45:07</sys_created_on>
+        <sys_id>b929acba2f56a010b57ebab62799b68f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>177ab8440e10000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-16 15:45:07</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>f129acba9256a010468167bdfebe9a8f</update_guid>
+        <update_guid_history>f129acba9256a010468167bdfebe9a8f:-1075245415,c7c8e0ba5656a010505efa0edb2c1a32:1454585735,9b18a0ba6d56a010e430476f50912df2:1659014311,50b6607a9756a0109a00dbd7c2d1f0b5:1308945489,33162c3aac56a010ab7861c8ffbe758d:-209756922,95f420f6d356a01084435d382d30ca56:11568600,6d03e876e456a010def659a2595078e6:-2032751086,1ac1ac762056a0104bfe1a330a661fad:777042704,af21e476ea56a0107c89bbb6b611d770:1784687596,2b60e836ff56a0105ad2e2fc5a09071c:-1779018470,079f90361a56a010a370fb754ba0bef6:2120905504,f4a613de80d66010239065c444b964bd:142606522,eed3d35e1ad66010829b6fd30d544093:-611410953,81e19fda07d66010bdb7e2a3999d2980:1442777303,d70117da42d660101201ce82359fafd4:-93951189,e7b09fd653d66010d080e9ddd52c61d7:886312900</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-30 13:45:03</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>96399d777de7486e943e304b2b064fa9</sys_id>
+        <sys_metadata>1aa013da2fd66010b57ebab62799b65d</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>getSentinelWorkspaces</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_1aa013da2fd66010b57ebab62799b65d</sys_update_name>
+        <sys_update_version display_value="sys_script_include_1aa013da2fd66010b57ebab62799b65d">b929acba2f56a010b57ebab62799b68f</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-30 13:45:03</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

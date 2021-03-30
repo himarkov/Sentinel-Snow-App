@@ -2,29 +2,29 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>package_private</access>
         <active>true</active>
-        <api_name>x_556309_microsoft.Sentinel</api_name>
+        <api_name>x_556309_microsoft.CustomMapping</api_name>
         <caller_access/>
         <client_callable>false</client_callable>
-        <description>Class containing the different Azure Sentinel related functions</description>
-        <name>Sentinel</name>
-        <script><![CDATA[var Sentinel = Class.create();
-Sentinel.prototype = {
+        <description/>
+        <name>CustomMapping</name>
+        <script><![CDATA[var CustomMapping = Class.create();
+CustomMapping.prototype = {
     initialize: function() {
     },
 
-    type: 'Sentinel'
+    type: 'CustomMapping'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-03-02 14:23:20</sys_created_on>
-        <sys_id>508c94df2fa22010b57ebab62799b689</sys_id>
+        <sys_created_on>2021-03-30 14:06:05</sys_created_on>
+        <sys_id>e92520902f532410b57ebab62799b6ef</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>Sentinel</sys_name>
+        <sys_name>CustomMapping</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
-        <sys_update_name>sys_script_include_508c94df2fa22010b57ebab62799b689</sys_update_name>
+        <sys_update_name>sys_script_include_e92520902f532410b57ebab62799b6ef</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-03-02 14:23:20</sys_updated_on>
+        <sys_updated_on>2021-03-30 14:06:05</sys_updated_on>
     </sys_script_include>
 </record_update>
