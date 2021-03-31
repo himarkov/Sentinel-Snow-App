@@ -51,6 +51,7 @@ SentinelIncidents.prototype = {
             var pagedObj = JSON.parse(pagedResponseBody);
 
             if(pagedhttpStatus == 200) {
+                // when successful connection, update last sync
                 if(pagedObj.value) {
                     incidents = incidents.concat(pagedObj.value);
                 }
@@ -87,6 +88,8 @@ SentinelIncidents.prototype = {
         var callerId = environment.caller_id;
         var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
         var incidentUniqueKey = gs.getProperty('x_556309_microsoft.incidentUniqueKey');
+        var status = gs.getProperty('x_556309_microsoft.statusField');
+        var severity = gs.getProperty('x_556309_microsoft.severityField');
         var createdIncidents = 0;
         var myObj;
         var appUtils = new AppUtils();
@@ -106,9 +109,9 @@ SentinelIncidents.prototype = {
                 myObj.short_description = incidents[i].properties.title + ' - Incident number: ' + incidents[i].properties.incidentNumber;
                 myObj.description = 'Environment: ' + environment.environment_name + '\nAzure Sentinel incident: ' + incidents[i].properties.incidentNumber + '\nDescription: ' + incidents[i].properties.description + '\nProducts: ' + incidents[i].properties.additionalData.alertProductNames.join() + '\nTactics: ' + incidents[i].properties.additionalData.tactics.join() + '\nIncident link: ' + incidents[i].properties.incidentUrl + '\nEnvironmentID: ' + environment.sys_id;
 
-                myObj.impact = appUtils.getServiceNowSeverity(incidents[i].properties.severity); // get the corresponding severity
+                myObj[severity] = appUtils.getServiceNowSeverity(incidents[i].properties.severity); // get the corresponding severity
 
-                myObj.incident_state = appUtils.getServiceNowState(incidents[i].properties.status); // get the corresponding state
+                myObj[status] = appUtils.getServiceNowState(incidents[i].properties.status); // get the corresponding status
                 if(incidents[i].properties.status.toLowerCase() == 'closed') {
                     myObj.close_code = 'Closed/Resolved By Caller';
                     myObj.close_notes = 'Incident was already closed in Sentinel. \nIncident classification: ' + incidents[i].properties.classification + '\nClose comment: ' + incidents[i].properties.classificationComment;
@@ -144,7 +147,8 @@ SentinelIncidents.prototype = {
                 myObj.update();
 
                 // Add incident alerts details
-                var html = alertsUtils.getIncidentAlerts(environment, incidents[i].name, 'html');
+                var incidentAlerts = alertsUtils.getIncidentAlerts(environment, incidents[i].name, 'json');
+                var html = alertsUtils.alertsToHtmlTable(incidentAlerts);
                 if(html) {
                     myObj.setWorkflow(false);
                     myObj.work_notes = '[code]<h2>Alerts</h2>' + html + '[/code]';
@@ -153,17 +157,31 @@ SentinelIncidents.prototype = {
 
                 // Add incident entities to Snow
                 var incidentEntities =  entitiesUtils.getIncidentEntities(environment, incidents[i].name, 'json');
+                
+                // Create Incident metadata related record
+                var incidentMetadata = appUtils.setIncidentMetadata(myObj.sys_id, incidentAlerts.length, incidentEntities.length);
 
-                // Custom mapping
+
+                // custom mapping
                 var ips = entitiesUtils.getEntitiesByType(incidentEntities, 'ip');
-                myObj.u_ips = ips.map(function (ip) {return ip.address;}).join(', ');
-                appUtils.log(myObj.u_ips);
                 var hosts = entitiesUtils.getEntitiesByType(incidentEntities, 'host');
-                myObj.u_hosts = hosts.map(function (host) {return host.hostName;}).join(', ');
-                appUtils.log(myObj.u_hosts);
                 var users = entitiesUtils.getEntitiesByType(incidentEntities, 'account');
-                myObj.u_impacted_users = users.map(function (user) {return user.accountName;}).join(', ');
-                appUtils.log(myObj.u_impacted_users);
+
+                if(ips) {
+                    myObj.u_ips = (ips.map(function (ip) {return ip.details.address;})).join(', ');
+                    appUtils.log(myObj.u_ips);
+                }
+                
+                if(hosts) {
+                    myObj.u_hosts = (hosts.map(function (host) {return host.details.hostName;})).join(', ');
+                    appUtils.log(myObj.u_hosts);
+                }
+                
+                if(users) {
+                    myObj.u_impacted_users = (users.map(function (user) {return user.details.accountName;})).join(', ');
+                    appUtils.log(myObj.u_impacted_users);
+                }
+
                 // end custom mapping
 
                 var html = entitiesUtils.entitiesToHtmlTable(incidentEntities);
@@ -214,7 +232,7 @@ SentinelIncidents.prototype = {
 
     },
 
-    //Function to update Sentinel incidents at creation, by adding labels with th eincident number
+    //Function to update Sentinel incidents at creation, by adding labels with the incident number
     updateSentinelIncident: function (environment, incidentId, properties) {
         var appUtils = new AppUtils();
 
@@ -273,6 +291,8 @@ SentinelIncidents.prototype = {
     
         var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
         var incidentUniqueKey = gs.getProperty('x_556309_microsoft.incidentUniqueKey');
+        var status = gs.getProperty('x_556309_microsoft.statusField');
+        var severity = gs.getProperty('x_556309_microsoft.severityField');
         var updatedIncidents = 0;
         var addedComments;
         var myObj;
@@ -292,17 +312,17 @@ SentinelIncidents.prototype = {
 
             if(myObj.next()) {
                 
-                changes = compareChanges(modifiedIncidents[i].properties, myObj);
+                changes = appUtils.compareChanges(modifiedIncidents[i].properties, myObj);
 
                 if(Object.keys(changes).length > 0) {
                     
                     
                     if(changes.hasOwnProperty('severitySentinel')) {
-                        myObj.impact = appUtils.getServiceNowSeverity(incidents[i].properties.severity);
+                        myObj[severity] = appUtils.getServiceNowSeverity(incidents[i].properties.severity);
                     }
 
                     if(changes.hasOwnProperty('statusSentinel')) { 
-                        myObj.incident_state = appUtils.getServiceNowState(incidents[i].properties.status);
+                        myObj[status] = appUtils.getServiceNowState(incidents[i].properties.status);
                         if(incidents[i].properties.status.toLowerCase() == 'closed') {
                             myObj.close_code = 'Closed/Resolved By Caller';
                             myObj.close_notes = 'Incident was already closed in Sentinel. \nIncident classification: ' + incidents[i].properties.classification + '\nClose comment: ' + incidents[i].properties.classificationComment;
@@ -315,9 +335,11 @@ SentinelIncidents.prototype = {
                         }
                     }
 
+                    
                     if(changes.hasOwnProperty('newAlerts')) {
                         // add new alerts sync
-                        var htmlAlerts = alertsUtils.getIncidentAlerts(environment, incidents[i].name, 'html', modifiedLastSync);
+                        var incidentAlerts = alertsUtils.getIncidentAlerts(environment, incidents[i].name, 'json', modifiedLastSync)
+                        var htmlAlerts = alertsUtils.alertsToHtmlTable(incidentAlerts);
                         if(htmlAlerts) {
                             myObj.setWorkflow(false);
                             myObj.work_notes = '[code]<h2>Alerts (updated)</h2>' + htmlAlerts + '[/code]';
@@ -325,43 +347,53 @@ SentinelIncidents.prototype = {
                             appUtils.log('Incident ' + myObj.number + ' has been updated with new alerts.');
 
                         }
-                    }
 
-                    if(changes.hasOwnProperty('newEntities')) {
+
                         // Add incident entities to Snow
                         var incidentEntities =  entitiesUtils.getIncidentEntities(environment, incidents[i].name, 'json');
-
                         var htmlEntities = entitiesUtils.entitiesToHtmlTable(incidentEntities);
                         if(htmlEntities) {
                             myObj.setWorkflow(false);
                             myObj.work_notes = '[code]<h2>Entities (updated)</h2>' + htmlEntities + '[/code]';
                             myObj.update();
                         }
-                    }
 
-                    if(changes.hasOwnProperty('newComments')) {
-                        // add comments sync
-                        newComments = this.getIncidentComments(environment, modifiedIncidents[i].name, modifiedLastSync); //returns added comments since last sync
+                        var ips = entitiesUtils.getEntitiesByType(incidentEntities, 'ip');
+                        var hosts = entitiesUtils.getEntitiesByType(incidentEntities, 'host');
+                        var users = entitiesUtils.getEntitiesByType(incidentEntities, 'account');
+
+                        // Custom mapping
+                        if(ips) {
+                            myObj.u_ips = (ips.map(function (ip) {return ip.details.address;})).join(', ');
+                            appUtils.log(myObj.u_ips);
+                        }
+                        
+                        if(hosts) {
+                            myObj.u_hosts = (hosts.map(function (host) {return host.details.hostName;})).join(', ');
+                            appUtils.log(myObj.u_hosts);
+                        }
+                        
+                        if(users) {
+                            myObj.u_impacted_users = (users.map(function (user) {return user.details.accountName;})).join(', ');
+                            appUtils.log(myObj.u_impacted_users);
+                        }
+
+                        // Update metadata counters
+                        var incidentMetadata = appUtils.setIncidentMetadata(myObj.sys_id, incidentAlerts.length, incidentEntities.length);
+
                     }
 
                     
+                    //returns added comments since last sync
+                    newComments = this.getIncidentComments(environment, modifiedIncidents[i].name, modifiedLastSync);
+                    
+
                     try {
+
                         myObj.setWorkflow(false);
                         myObj.update();
                         updatedIncidents++;
                         appUtils.log('Incident ' + myObj.number + ' has been updated\nChanges: ' + JSON.stringify(changes));
-
-                        // Custom mapping
-                        var ips = entitiesUtils.getEntitiesByType(incidentEntities, 'ip');
-                        myObj.u_ips = ips.map(function (ip) {return ip.address;}).join(', ');
-                        appUtils.log(myObj.u_ips);
-                        var hosts = entitiesUtils.getEntitiesByType(incidentEntities, 'host');
-                        myObj.u_hosts = hosts.map(function (host) {return host.hostName;}).join(', ');
-                        appUtils.log(myObj.u_hosts);
-                        var users = entitiesUtils.getEntitiesByType(incidentEntities, 'account');
-                        myObj.u_impacted_users = users.map(function (user) {return user.accountName;}).join(', ');
-                        appUtils.log(myObj.u_impacted_users);
-                        // end custom mapping
 
                         if(newComments.length > 0) {
                             newComments.forEach(function (comment) {
@@ -492,13 +524,13 @@ SentinelIncidents.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-03-29 12:29:16</sys_created_on>
         <sys_id>6e358b332fc3e010b57ebab62799b6f6</sys_id>
-        <sys_mod_count>11</sys_mod_count>
+        <sys_mod_count>34</sys_mod_count>
         <sys_name>SentinelIncidents</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_6e358b332fc3e010b57ebab62799b6f6</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-03-30 14:57:14</sys_updated_on>
+        <sys_updated_on>2021-03-31 15:49:08</sys_updated_on>
     </sys_script_include>
 </record_update>

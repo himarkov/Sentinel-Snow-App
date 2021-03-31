@@ -201,34 +201,34 @@ AppUtils.prototype = {
     //---------------------------------------------------------------
     // Function comparing Sentinel and ServiceNow incidents and returning differences
     compareChanges: function(sentinelIncident, snowIncident) {
+        var status = gs.getProperty('x_556309_microsoft.statusField');
+        var severity = gs.getProperty('x_556309_microsoft.severityField');
         var changes = {};
-        var incidentSeverity;
-        var incidentStatus;
+        var appUtils = new AppUtils();
+        var incidentSeverity = appUtils.getServiceNowSeverity(sentinelIncident.severity);
+        var incidentStatus = appUtils.getServiceNowState(sentinelIncident.status);
 
-        switch(sentinelIncident.severity.toLowerCase()) {
-            case 'low': incidentSeverity = 3; break;
-            case 'medium': incidentSeverity = 2; break;
-            case 'high': incidentSeverity = 1; break;
-        }
-
-        switch(sentinelIncident.status.toLowerCase()) {
-            case 'new': incidentStatus = 1; break;
-            case 'active': incidentStatus = 2; break;
-            case 'closed': incidentStatus = 6; break;                
-        }
-
-        if((incidentStatus != snowIncident.incident_state) && !((incidentStatus == 6) && (snowIncident.incident_state == 7))) {
+        if(sentinelIncident.status != appUtils.getSentinelState(snowIncident[status].toString())) {
             changes.statusSentinel = sentinelIncident.status;
-            changes.statusSnow = snowIncident.incident_state.toString();
-        } // 6 means incident resolved in snow
-        if(incidentSeverity != snowIncident.impact) {
+            changes.statusSnow = snowIncident[status].toString();
+        } 
+
+        if(sentinelIncident.severity != appUtils.getSentinelSeverity(snowIncident[severity].toString())) {
             changes.severitySentinel = sentinelIncident.severity;
-            changes.severitySnow = snowIncident.impact.toString();
+            changes.severitySnow = snowIncident[severity].toString();
         }
-        if((sentinelIncident.owner.userPrincipalName != snowIncident.assigned_to.email.toString()) && (sentinelIncident.owner.userPrincipalName != null)) { //should remove the filter. Preventing owner update
+
+        if((sentinelIncident.owner.userPrincipalName != snowIncident.assigned_to.email.toString()) && (sentinelIncident.owner.userPrincipalName != null)) { 
             changes.ownerSentinel = sentinelIncident.owner.userPrincipalName; 
             changes.ownerSnow = snowIncident.assigned_to.email.toString();
         }
+
+        var incidentMetadata = this.getIncidentMetadata(snowIncident.sys_id.toString());
+        // Check if new alerts
+        if(incidentMetadata.alerts_nbr < sentinelIncident.additionalData.alertsCount){
+            changes.newAlerts = sentinelIncident.additionalData.alertsCount - incidentMetadata.alerts_nbr;
+        }
+
 
         return changes;
     },
@@ -297,19 +297,72 @@ AppUtils.prototype = {
         }
     },
 
+    //--------------------------------------------------------------------
+    // Return incident metadata record
+    getIncidentMetadata: function(incidentId) {
+        var myObj = new GlideRecord('x_556309_microsoft_incident_metadata');
+        myObj.addQuery('incident_id', incidentId);
+        myObj.query();
+
+        if(myObj.next()) {
+            return myObj;
+        }
+        else {
+            return null;
+        }
+    },
+
+
+    //--------------------------------------------------------------------
+    // Create record in reference table
+    setIncidentMetadata: function(incidentId, alertsNbr, entitiesNbr) {
+        var myObj = new GlideRecord('x_556309_microsoft_incident_metadata');
+        myObj.addQuery('incident_id', incidentId);
+        myObj.query();
+
+        if(!myObj.next()) {
+            try {
+                myObj.incident_id = incidentId;
+                myObj.alerts_nbr = alertsNbr;
+                myObj.entities_nbr = entitiesNbr;
+                var record = myObj.insert();
+
+                return record;
+            }
+            catch(ex) {
+                var message = ex.message;
+                appUtils.log('ERROR inserting incident_metadata: ' + message);
+            }
+        }
+        else {
+            try {
+                myObj.alerts_nbr = alertsNbr;
+                myObj.entities_nbr = entitiesNbr;
+                var record = myObj.update();
+                
+                return record;
+            }
+            catch(ex) {
+                var message = ex.message;
+                appUtils.log('ERROR updating incident_metadata: ' + message);
+            }
+
+        }
+    },
+
     type: 'AppUtils'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-02-25 13:30:18</sys_created_on>
         <sys_id>ac0f52652fee2010b57ebab62799b646</sys_id>
-        <sys_mod_count>21</sys_mod_count>
+        <sys_mod_count>24</sys_mod_count>
         <sys_name>AppUtils</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_ac0f52652fee2010b57ebab62799b646</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-03-30 14:04:54</sys_updated_on>
+        <sys_updated_on>2021-03-31 15:41:45</sys_updated_on>
     </sys_script_include>
 </record_update>

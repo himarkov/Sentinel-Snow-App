@@ -32,7 +32,9 @@
         <rest_variables/>
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous) {
-	var appUtils = new AppUtils();
+	var status = gs.getProperty('x_556309_microsoft.statusField');
+    var severity = gs.getProperty('x_556309_microsoft.severityField');
+    var appUtils = new AppUtils();
     var environmentId = appUtils.getEnvironmentId(current);
     var sentinelIncidents = new SentinelIncidents();
 
@@ -49,18 +51,18 @@
     try {
             var myObj = current;
             var incident = sentinelIncidents.getSentinelIncidents(environment, myObj.correlation_id);
-            var changes = compareChanges(incident[0].properties, myObj); //changes is an object with all changes
+            var changes = appUtils.compareChanges(incident[0].properties, myObj); //changes is an object with all changes
             var properties = incident[0].properties;
             
             if (Object.keys(changes).length > 0) { //if at least one change
 
                 if(changes.hasOwnProperty('severitySentinel')) { //severity must be updated in Sentinel
-                    properties.severity = (appUtils.getSentinelSeverity(myObj.impact)).toString();					
+                    properties.severity = (appUtils.getSentinelSeverity(myObj[severity])).toString();					
                
                 }
                 
                 if(changes.hasOwnProperty('statusSentinel')) { //status must be updated in Sentinel
-                    properties.status = (appUtils.getSentinelState(myObj.state)).toString();
+                    properties.status = (appUtils.getSentinelState(myObj[status])).toString();
 
 					if(properties.status == 'Closed') {
                         properties.classification = 'Undetermined';
@@ -104,7 +106,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>e7d30a172f392410aab2d5ccf699b6ed</sys_id>
-        <sys_mod_count>51</sys_mod_count>
+        <sys_mod_count>53</sys_mod_count>
         <sys_name>update_changes_to_sentinel</sys_name>
         <sys_overrides/>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
@@ -112,7 +114,7 @@
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_e7d30a172f392410aab2d5ccf699b6ed</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-03-30 13:14:33</sys_updated_on>
+        <sys_updated_on>2021-03-31 09:27:40</sys_updated_on>
         <template/>
         <when>async</when>
     </sys_script>
