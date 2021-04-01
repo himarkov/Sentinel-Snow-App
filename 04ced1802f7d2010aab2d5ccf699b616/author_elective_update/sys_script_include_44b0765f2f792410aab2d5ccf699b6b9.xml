@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.compareChanges</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>compareChanges</name>
+        <script><![CDATA[// Function comparing Sentinel and SNOW incidents and return differences
+function compareChanges(sentinelIncident, snowIncident) {
+    var status = gs.getProperty('x_556309_microsoft.statusField');
+    var severity = gs.getProperty('x_556309_microsoft.severityField');
+    var changes = {};
+    var appUtils = new AppUtils();
+    var incidentSeverity = appUtils.getServiceNowSeverity(sentinelIncident.severity);
+    var incidentStatus = appUtils.getServiceNowState(sentinelIncident.status);
+
+    if(sentinelIncident.status != appUtils.getSentinelState(snowIncident[status].toString())) {
+        changes.statusSentinel = sentinelIncident.status;
+        changes.statusSnow = snowIncident[status].toString();
+    } 
+
+    if(sentinelIncident.severity != appUtils.getSentinelSeverity(snowIncident[severity].toString())) {
+        changes.severitySentinel = sentinelIncident.severity;
+        changes.severitySnow = snowIncident[severity].toString();
+    }
+
+    if((sentinelIncident.owner.userPrincipalName != snowIncident.assigned_to.email.toString()) && (sentinelIncident.owner.userPrincipalName != null)) { 
+        changes.ownerSentinel = sentinelIncident.owner.userPrincipalName; 
+        changes.ownerSnow = snowIncident.assigned_to.email.toString();
+    }
+
+    // Add new alerts
+
+    // Add new entities
+
+    return changes;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-24 18:23:07</sys_created_on>
+        <sys_id>44b0765f2f792410aab2d5ccf699b6b9</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>compareChanges</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_44b0765f2f792410aab2d5ccf699b6b9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-31 09:18:14</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_44b0765f2f792410aab2d5ccf699b6b9</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_556309_microsoft.compareChanges&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;compareChanges&lt;/name&gt;&lt;script&gt;&lt;![CDATA[// Function comparing Sentinel and SNOW incidents and return differences
+function compareChanges(sentinelIncident, snowIncident) {
+    var status = gs.getProperty('x_556309_microsoft.statusField');
+    var severity = gs.getProperty('x_556309_microsoft.severityField');
+    var changes = {};
+    var appUtils = new AppUtils();
+    var incidentSeverity = appUtils.getServiceNowSeverity(sentinelIncident.severity);
+    var incidentStatus = appUtils.getServiceNowState(sentinelIncident.status);
+
+    if(sentinelIncident.status != appUtils.getSentinelState(snowIncident[status].toString())) {
+        changes.statusSentinel = sentinelIncident.status;
+        changes.statusSnow = snowIncident[status].toString();
+    } 
+
+    if(sentinelIncident.severity != appUtils.getSentinelSeverity(snowIncident[severity].toString())) {
+        changes.severitySentinel = sentinelIncident.severity;
+        changes.severitySnow = snowIncident[severity].toString();
+    }
+
+    if((sentinelIncident.owner.userPrincipalName != snowIncident.assigned_to.email.toString()) &amp;&amp; (sentinelIncident.owner.userPrincipalName != null)) { 
+        changes.ownerSentinel = sentinelIncident.owner.userPrincipalName; 
+        changes.ownerSnow = snowIncident.assigned_to.email.toString();
+    }
+
+    // Add new alerts
+
+    // Add new entities
+
+    return changes;
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;sebmolendijk@hotmail.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2021-01-24 18:23:07&lt;/sys_created_on&gt;&lt;sys_id&gt;44b0765f2f792410aab2d5ccf699b6b9&lt;/sys_id&gt;&lt;sys_mod_count&gt;11&lt;/sys_mod_count&gt;&lt;sys_name&gt;compareChanges&lt;/sys_name&gt;&lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_44b0765f2f792410aab2d5ccf699b6b9&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2021-03-31 09:18:14&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1312001681</payload_hash>
+        <record_name>compareChanges</record_name>
+        <reverted_from/>
+        <source>c20ed0a02fdb2410b57ebab62799b666</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-31 09:18:14</sys_created_on>
+        <sys_id>65fc206c2fdb2410b57ebab62799b670</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>178879380cb0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-31 09:18:14</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>6dfc206c57db24108f096ff5690c516f</update_guid>
+        <update_guid_history>6dfc206c57db24108f096ff5690c516f:-1312001681,8868ec28eedb2410f206de928aef1db2:-1549481505,6f85246493db2410d5c0a16bf9955754:-123552119,143fe958b14220106d21aa627fb0e34d:-866480729,e0de2d5821422010c346eab85c087229:-1302327843,b376e550a2422010bacb487e1f2ebbed:1421996315</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:33:20</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>589fa9fff8394a0ab0fa24c98e38c3e4</sys_id>
+        <sys_metadata>44b0765f2f792410aab2d5ccf699b6b9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>compareChanges</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_44b0765f2f792410aab2d5ccf699b6b9</sys_update_name>
+        <sys_update_version display_value="sys_script_include_44b0765f2f792410aab2d5ccf699b6b9">65fc206c2fdb2410b57ebab62799b670</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:33:20</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.getIncidentComments</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>getIncidentComments</name>
+        <script><![CDATA[//---------------------------------------------------------------
+// Get comments to incident
+function getIncidentComments (environment, incidentId, lastSync) {
+
+    var hasNext = false;
+    var comments = [];
+    var filteredComments = [];
+    var filter = null;
+    if(lastSync) {
+
+        filter = '(properties/createdTimeUtc gt ' + lastSync + ')';
+    }
+
+    // Prepare request
+    incidentId = incidentId + '/comments';
+    var pagedRequest = buildRESTMessageV2(environment, null, 'get', filter, incidentId);
+
+    do {    
+        // Request Sentinel incidents
+        var pagedResponse = pagedRequest.execute();
+        var pagedResponseBody = pagedResponse.getBody();
+        var pagedhttpStatus = pagedResponse.getStatusCode();
+        var pagedObj = JSON.parse(pagedResponseBody);
+
+        if(pagedhttpStatus == 200) {
+            
+            comments = comments.concat(pagedObj.value);
+        }
+        else {
+            log('Error code: ' + pagedhttpStatus + '\nMessage:\n' + pagedResponseBody);
+        }
+
+
+        if (pagedObj['nextLink']) { // if true, more incidents available
+
+            hasNext = true;
+            var skip = getSkipToken(pagedObj['nextLink']);
+            pagedRequest = buildRESTMessageV2(environment, skip, 'get', filter, incidentId); 
+        }
+        else {
+            hasNext = false;
+        }
+
+    }while (hasNext);
+    
+    // Filters out the comments created by SNOW. This app adds "(Work notes)" when adding a comment to Sentinel
+    filteredComments = comments.filter(function (comment) {
+        return comment.properties.message.toLowerCase().indexOf('<div class="snow">') === -1;
+    });
+
+    // Sort comments by creation date
+    if(filteredComments) {
+        filteredComments.sort(function(a, b){
+            var x = new Date(a.properties.createdTimeUtc);
+            var y = new Date(b.properties.createdTimeUtc);
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+        filteredComments.reverse();
+    }
+
+    return filteredComments;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-19 19:18:08</sys_created_on>
+        <sys_id>dd5d81f92f392010aab2d5ccf699b631</sys_id>
+        <sys_mod_count>23</sys_mod_count>
+        <sys_name>getIncidentComments</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_dd5d81f92f392010aab2d5ccf699b631</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-15 18:43:09</sys_updated_on>
+    </sys_script_include>
+<sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_dd5d81f92f392010aab2d5ccf699b631</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;
+    &lt;sys_script_include action="INSERT_OR_UPDATE"&gt;
+        &lt;access&gt;package_private&lt;/access&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;api_name&gt;x_556309_microsoft.getIncidentComments&lt;/api_name&gt;
+        &lt;caller_access/&gt;
+        &lt;client_callable&gt;false&lt;/client_callable&gt;
+        &lt;description/&gt;
+        &lt;name&gt;getIncidentComments&lt;/name&gt;
+        &lt;script&gt;&lt;![CDATA[//---------------------------------------------------------------
+// Get comments to incident
+function getIncidentComments (environment, incidentId, lastSync) {
+
+    var hasNext = false;
+    var comments = [];
+    var filteredComments = [];
+    var filter = null;
+    if(lastSync) {
+
+        filter = '(properties/createdTimeUtc gt ' + lastSync + ')';
+    }
+
+    // Prepare request
+    incidentId = incidentId + '/comments';
+    var pagedRequest = buildRESTMessageV2(environment, null, 'get', filter, incidentId);
+
+    do {    
+        // Request Sentinel incidents
+        var pagedResponse = pagedRequest.execute();
+        var pagedResponseBody = pagedResponse.getBody();
+        var pagedhttpStatus = pagedResponse.getStatusCode();
+        var pagedObj = JSON.parse(pagedResponseBody);
+
+        if(pagedhttpStatus == 200) {
+            
+            comments = comments.concat(pagedObj.value);
+        }
+        else {
+            log('Error code: ' + pagedhttpStatus + '\nMessage:\n' + pagedResponseBody);
+        }
+
+
+        if (pagedObj['nextLink']) { // if true, more incidents available
+
+            hasNext = true;
+            var skip = getSkipToken(pagedObj['nextLink']);
+            pagedRequest = buildRESTMessageV2(environment, skip, 'get', filter, incidentId); 
+        }
+        else {
+            hasNext = false;
+        }
+
+    }while (hasNext);
+    
+    // Filters out the comments created by SNOW. This app adds "(Work notes)" when adding a comment to Sentinel
+    filteredComments = comments.filter(function (comment) {
+        return comment.properties.message.toLowerCase().indexOf('&lt;div class="snow"&gt;') === -1;
+    });
+
+    // Sort comments by creation date
+    if(filteredComments) {
+        filteredComments.sort(function(a, b){
+            var x = new Date(a.properties.createdTimeUtc);
+            var y = new Date(b.properties.createdTimeUtc);
+            if (x &lt; y) {return -1;}
+            if (x &gt; y) {return 1;}
+            return 0;
+        });
+        filteredComments.reverse();
+    }
+
+    return filteredComments;
+}]]&gt;&lt;/script&gt;
+        &lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;
+        &lt;sys_created_by&gt;sebmolendijk@hotmail.com&lt;/sys_created_by&gt;
+        &lt;sys_created_on&gt;2021-01-19 19:18:08&lt;/sys_created_on&gt;
+        &lt;sys_id&gt;dd5d81f92f392010aab2d5ccf699b631&lt;/sys_id&gt;
+        &lt;sys_mod_count&gt;23&lt;/sys_mod_count&gt;
+        &lt;sys_name&gt;getIncidentComments&lt;/sys_name&gt;
+        &lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;
+        &lt;sys_policy&gt;read&lt;/sys_policy&gt;
+        &lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;
+        &lt;sys_update_name&gt;sys_script_include_dd5d81f92f392010aab2d5ccf699b631&lt;/sys_update_name&gt;
+        &lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;
+        &lt;sys_updated_on&gt;2021-02-15 18:43:09&lt;/sys_updated_on&gt;
+    &lt;/sys_script_include&gt;
+&lt;/record_update&gt;</payload>
+        <payload_hash>1537228868</payload_hash>
+        <record_name>getIncidentComments</record_name>
+        <reverted_from/>
+        <source>8f50b2382f132010b57ebab62799b660</source>
+        <source_table>sys_upgrade_history</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:30:53</sys_created_on>
+        <sys_id>6460f2382f132010b57ebab62799b696</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1788da12df20000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:30:53</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>e060f238e6132010205d68f7e5b0ec96</update_guid>
+        <update_guid_history>e060f238e6132010205d68f7e5b0ec96:0,b900b3ccb69fe0102604bb20b600448e:-1121302524,8858cc6e695a6010a9252db0eac31e8b:881781302,3b576f5ae31a601041e9ed20d1bdaf80:1769956230,73317e550b16e0104e397f4bd03d713d:768276764,f806625dc8d2e010b0275a65d4a11690:1913348563,c48629501f4220101fdb7054b77e6e1e:-1002721191</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:34:54</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>53fb1e67d1f3454a9822d989e51987c4</sys_id>
+        <sys_metadata>dd5d81f92f392010aab2d5ccf699b631</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>getIncidentComments</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_dd5d81f92f392010aab2d5ccf699b631</sys_update_name>
+        <sys_update_version display_value="sys_script_include_dd5d81f92f392010aab2d5ccf699b631">6460f2382f132010b57ebab62799b696</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:34:54</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

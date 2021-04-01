@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.getSentinelIncidents</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>getSentinelIncidents</name>
+        <script><![CDATA[//---------------------------------------------------------------
+// Return Sentinel incidents, based on the filter
+function getSentinelIncidents (environment, id, operation) {
+
+    var filter = null;
+    var lastSync = null;
+    var customFilter = gs.getProperty('x_556309_microsoft.newIncidentsFilter');
+
+    if(!id) {
+        if(operation === 'update') {
+            lastSync = getLastSync('modifiedIncidentsLastSync'); //returns last sync from sentinelUtils table
+            filter = '(properties/lastModifiedTimeUtc gt '+ lastSync + ')';
+        }
+        else { // searching for new incidents
+            lastSync = getLastSync('newIncidentsLastSync');
+            filter = '(properties/createdTimeUtc gt '+ lastSync + ')';
+        }
+
+        // If there is a custom filter added in the app system properties, in addition to the time
+        if(customFilter.length > 0) {
+            filter += ' and ' + customFilter;
+        }
+    }
+    var hasNext = false;
+    var incidents = [];
+    var page = 0;    
+
+    // Prepare request
+    var pagedRequest = buildRESTMessageV2(environment, null, 'get', filter, id);
+
+    do {    
+        // Request Sentinel incidents
+        var pagedResponse = pagedRequest.execute();
+        var pagedResponseBody = pagedResponse.getBody();
+        var pagedhttpStatus = pagedResponse.getStatusCode();
+        var pagedObj = JSON.parse(pagedResponseBody);
+		
+        if(pagedhttpStatus == 200) {
+            if(pagedObj.value) {
+                incidents = incidents.concat(pagedObj.value);
+            }
+            else {
+                //one incident only
+                incidents = incidents.concat(pagedObj);
+            }
+        }
+        else {
+            log('Environment:' + environment.environment_name + '\nError code: ' + pagedhttpStatus + '\nMessage:\n' + pagedResponseBody);
+        }
+
+
+        if (pagedObj['nextLink']) { // if true, more incidents available
+
+            hasNext = true;
+            var skip = getSkipToken(pagedObj['nextLink']);
+            pagedRequest = buildRESTMessageV2(environment, skip, 'get', filter); 
+            page++;
+        }
+        else {
+            hasNext = false;
+        }
+
+    }while (hasNext);
+    
+    return incidents;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-19 16:54:27</sys_created_on>
+        <sys_id>1f6c20f52ff52010aab2d5ccf699b6a9</sys_id>
+        <sys_mod_count>12</sys_mod_count>
+        <sys_name>getSentinelIncidents</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_1f6c20f52ff52010aab2d5ccf699b6a9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-16 20:15:36</sys_updated_on>
+    </sys_script_include>
+<sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_1f6c20f52ff52010aab2d5ccf699b6a9</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;
+    &lt;sys_script_include action="INSERT_OR_UPDATE"&gt;
+        &lt;access&gt;package_private&lt;/access&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;api_name&gt;x_556309_microsoft.getSentinelIncidents&lt;/api_name&gt;
+        &lt;caller_access/&gt;
+        &lt;client_callable&gt;false&lt;/client_callable&gt;
+        &lt;description/&gt;
+        &lt;name&gt;getSentinelIncidents&lt;/name&gt;
+        &lt;script&gt;&lt;![CDATA[//---------------------------------------------------------------
+// Return Sentinel incidents, based on the filter
+function getSentinelIncidents (environment, id, operation) {
+
+    var filter = null;
+    var lastSync = null;
+    var customFilter = gs.getProperty('x_556309_microsoft.newIncidentsFilter');
+
+    if(!id) {
+        if(operation === 'update') {
+            lastSync = getLastSync('modifiedIncidentsLastSync'); //returns last sync from sentinelUtils table
+            filter = '(properties/lastModifiedTimeUtc gt '+ lastSync + ')';
+        }
+        else { // searching for new incidents
+            lastSync = getLastSync('newIncidentsLastSync');
+            filter = '(properties/createdTimeUtc gt '+ lastSync + ')';
+        }
+
+        // If there is a custom filter added in the app system properties, in addition to the time
+        if(customFilter.length &gt; 0) {
+            filter += ' and ' + customFilter;
+        }
+    }
+    var hasNext = false;
+    var incidents = [];
+    var page = 0;    
+
+    // Prepare request
+    var pagedRequest = buildRESTMessageV2(environment, null, 'get', filter, id);
+
+    do {    
+        // Request Sentinel incidents
+        var pagedResponse = pagedRequest.execute();
+        var pagedResponseBody = pagedResponse.getBody();
+        var pagedhttpStatus = pagedResponse.getStatusCode();
+        var pagedObj = JSON.parse(pagedResponseBody);
+		
+        if(pagedhttpStatus == 200) {
+            if(pagedObj.value) {
+                incidents = incidents.concat(pagedObj.value);
+            }
+            else {
+                //one incident only
+                incidents = incidents.concat(pagedObj);
+            }
+        }
+        else {
+            log('Environment:' + environment.environment_name + '\nError code: ' + pagedhttpStatus + '\nMessage:\n' + pagedResponseBody);
+        }
+
+
+        if (pagedObj['nextLink']) { // if true, more incidents available
+
+            hasNext = true;
+            var skip = getSkipToken(pagedObj['nextLink']);
+            pagedRequest = buildRESTMessageV2(environment, skip, 'get', filter); 
+            page++;
+        }
+        else {
+            hasNext = false;
+        }
+
+    }while (hasNext);
+    
+    return incidents;
+}]]&gt;&lt;/script&gt;
+        &lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;
+        &lt;sys_created_by&gt;sebmolendijk@hotmail.com&lt;/sys_created_by&gt;
+        &lt;sys_created_on&gt;2021-01-19 16:54:27&lt;/sys_created_on&gt;
+        &lt;sys_id&gt;1f6c20f52ff52010aab2d5ccf699b6a9&lt;/sys_id&gt;
+        &lt;sys_mod_count&gt;12&lt;/sys_mod_count&gt;
+        &lt;sys_name&gt;getSentinelIncidents&lt;/sys_name&gt;
+        &lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;
+        &lt;sys_policy&gt;read&lt;/sys_policy&gt;
+        &lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;
+        &lt;sys_update_name&gt;sys_script_include_1f6c20f52ff52010aab2d5ccf699b6a9&lt;/sys_update_name&gt;
+        &lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;
+        &lt;sys_updated_on&gt;2021-02-16 20:15:36&lt;/sys_updated_on&gt;
+    &lt;/sys_script_include&gt;
+&lt;/record_update&gt;</payload>
+        <payload_hash>-114177660</payload_hash>
+        <record_name>getSentinelIncidents</record_name>
+        <reverted_from/>
+        <source>8f50b2382f132010b57ebab62799b660</source>
+        <source_table>sys_upgrade_history</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:30:53</sys_created_on>
+        <sys_id>1460f2382f132010b57ebab62799b665</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1788da12b730000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:30:53</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>9060f238161320101dda4e9bf06eaa65</update_guid>
+        <update_guid_history>9060f238161320101dda4e9bf06eaa65:0,c7ade74ce89fe010d51034b51b85bdfb:1533022605,4c172db2aa1aa010f5d93a5336c623dc:281936978,5c94ad32d61aa010f0e77930f9b17bc9:-2107963160,5a87af5a111a60107eba48c9578591d7:-544572174,5b869a8821122010721d9dd159f1cc03:-692820138,6cb512480b122010ba2c90e66d6459cf:972214107,7376e5501d42201017f4289cd92695e9:1515640302</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:35:15</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>04ab7f27797646f1b43233d1c13c8551</sys_id>
+        <sys_metadata>1f6c20f52ff52010aab2d5ccf699b6a9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>getSentinelIncidents</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_1f6c20f52ff52010aab2d5ccf699b6a9</sys_update_name>
+        <sys_update_version display_value="sys_script_include_1f6c20f52ff52010aab2d5ccf699b6a9">1460f2382f132010b57ebab62799b665</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:35:15</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
