@@ -2,123 +2,138 @@
     <sys_ui_list parent="" relationship="" sys_domain="global" table="x_556309_microsoft_workspaces_config" version="2" view="">
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>caller_id</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <element>environment_name</element>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>b4f623ae2f92a010b57ebab62799b6b8</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>cfa3aff32f07e010b57ebab62799b6ab</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>environment_name</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <element>description</element>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>38f623ae2f92a010b57ebab62799b6b8</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>87a3aff32f07e010b57ebab62799b6ac</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>subscription</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>b8f623ae2f92a010b57ebab62799b6b8</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>0ba3aff32f07e010b57ebab62799b6ac</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>resource_group</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>3cf623ae2f92a010b57ebab62799b6b8</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>8ba3aff32f07e010b57ebab62799b6ac</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>workspace</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>bcf623ae2f92a010b57ebab62799b6b8</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>0fa3aff32f07e010b57ebab62799b6ac</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>description</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <element>caller_id</element>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>30f623ae2f92a010b57ebab62799b6b9</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>8fa3aff32f07e010b57ebab62799b6ac</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>oauth_provider</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>6</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>b0f623ae2f92a010b57ebab62799b6b9</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>03a3aff32f07e010b57ebab62799b6ad</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>environment_id</element>
-            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3cf623ae2f92a010b57ebab62799b6b7</list_id>
+            <element>last_successful_update</element>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>7</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
-            <sys_id>34f623ae2f92a010b57ebab62799b6b9</sys_id>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>83a3aff32f07e010b57ebab62799b6ad</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>environment_id</element>
+            <list_id display_value="x_556309_microsoft_workspaces_config" element="NULL" name="x_556309_microsoft_workspaces_config" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">87a3aff32f07e010b57ebab62799b6aa</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>8</position>
+            <sum>false</sum>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
+            <sys_id>07a3aff32f07e010b57ebab62799b6ad</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
@@ -132,10 +147,10 @@
             <sum>false</sum>
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-02-16 10:55:53</sys_created_on>
+            <sys_created_on>2021-03-29 14:41:03</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>3cf623ae2f92a010b57ebab62799b6b7</sys_id>
+            <sys_id>87a3aff32f07e010b57ebab62799b6aa</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>x_556309_microsoft_workspaces_config</sys_name>
             <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
@@ -143,7 +158,7 @@
             <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
             <sys_update_name>sys_ui_list_x_556309_microsoft_workspaces_config_null</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-02-16 10:55:53</sys_updated_on>
+            <sys_updated_on>2021-03-29 14:41:03</sys_updated_on>
             <sys_user/>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>

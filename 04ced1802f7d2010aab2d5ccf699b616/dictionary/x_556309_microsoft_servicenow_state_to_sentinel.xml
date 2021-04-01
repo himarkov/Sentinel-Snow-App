@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="ServiceNow State to Sentinel" max_length="40" name="x_556309_microsoft_servicenow_state_to_sentinel" sizeclass="4" type="collection">
+        <element label="Sentinel State" max_length="15" name="sentinel_state" type="string"/>
+        <element label="ServiceNow State" max_length="5" name="servicenow_state" type="string"/>
+    </element>
+</database>

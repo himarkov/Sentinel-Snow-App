@@ -45,25 +45,25 @@
         <payload_hash>961902857</payload_hash>
         <record_name>x_556309_microsoft.subscription.Sentinel API properties</record_name>
         <reverted_from/>
-        <source>c276a5502f422010b57ebab62799b63b</source>
+        <source>874727ae2f92a010b57ebab62799b6cb</source>
         <source_table>sys_upgrade_history</source_table>
         <state>previous</state>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-01-27 15:32:37</sys_created_on>
-        <sys_id>eb76e5502f422010b57ebab62799b67b</sys_id>
+        <sys_created_on>2021-02-16 10:57:27</sys_created_on>
+        <sys_id>445767ae2f92a010b57ebab62799b6d2</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_recorded_at>1774479a0800000001</sys_recorded_at>
+        <sys_recorded_at>177aa7ce5080000001</sys_recorded_at>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-01-27 15:32:37</sys_updated_on>
+        <sys_updated_on>2021-02-16 10:57:27</sys_updated_on>
         <type>Category Property</type>
-        <update_guid>ab76e550a0422010c15fc0a4b5a01c7b</update_guid>
-        <update_guid_history>ab76e550a0422010c15fc0a4b5a01c7b:961902857</update_guid_history>
+        <update_guid>c05767ae3492a010bd84d6fe99d72bd2</update_guid>
+        <update_guid_history>c05767ae3492a010bd84d6fe99d72bd2:0,5ba5af2e9492a010450ad499602b7018:293102481,ab76e550a0422010c15fc0a4b5a01c7b:961902857</update_guid_history>
     </sys_update_version>
     <sys_metadata_delete action="INSERT_OR_UPDATE">
         <sys_audit_delete/>
         <sys_class_name>sys_metadata_delete</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-02-16 10:50:19</sys_created_on>
+        <sys_created_on>2021-02-16 11:30:38</sys_created_on>
         <sys_db_object display_value="" name="sys_properties_category_m2m">sys_properties_category_m2m</sys_db_object>
         <sys_id>11224246a3b2417c9fbe80c4683ac421</sys_id>
         <sys_metadata>70295a482ffd2010aab2d5ccf699b6ae</sys_metadata>
@@ -75,8 +75,8 @@
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
         <sys_update_name>sys_properties_category_m2m_70295a482ffd2010aab2d5ccf699b6ae</sys_update_name>
-        <sys_update_version display_value="sys_properties_category_m2m_70295a482ffd2010aab2d5ccf699b6ae">eb76e5502f422010b57ebab62799b67b</sys_update_version>
+        <sys_update_version display_value="sys_properties_category_m2m_70295a482ffd2010aab2d5ccf699b6ae">445767ae2f92a010b57ebab62799b6d2</sys_update_version>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-16 10:50:19</sys_updated_on>
+        <sys_updated_on>2021-02-16 11:30:38</sys_updated_on>
     </sys_metadata_delete>
 </record_update>

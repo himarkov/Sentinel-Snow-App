@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="DELETE">
+        <active>true</active>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
+        <description/>
+        <device_type>browser</device_type>
+        <hint/>
+        <name>ServiceNow State to Sentinel</name>
+        <order>100</order>
+        <roles>x_556309_microsoft.servicenow_state_to_sentinel_user</roles>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-26 12:54:43</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>c89eabba2fcb2010b57ebab62799b696</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>ServiceNow State to Sentinel</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_app_application_c89eabba2fcb2010b57ebab62799b696</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-26 12:54:43</sys_updated_on>
+        <title>ServiceNow State to Sentinel</title>
+        <view_name/>
+    </sys_app_application>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_app_application_c89eabba2fcb2010b57ebab62799b696</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application"><sys_app_application action="INSERT_OR_UPDATE"><active>true</active><category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category><description/><device_type>browser</device_type><hint/><name>ServiceNow State to Sentinel</name><order>100</order><roles>x_556309_microsoft.servicenow_state_to_sentinel_user</roles><sys_class_name>sys_app_application</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2021-03-26 12:54:43</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>c89eabba2fcb2010b57ebab62799b696</sys_id><sys_mod_count>0</sys_mod_count><sys_name>ServiceNow State to Sentinel</sys_name><sys_overrides/><sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package><sys_policy/><sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope><sys_update_name>sys_app_application_c89eabba2fcb2010b57ebab62799b696</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2021-03-26 12:54:43</sys_updated_on><title>ServiceNow State to Sentinel</title><view_name/></sys_app_application></record_update>]]></payload>
+        <payload_hash>189266306</payload_hash>
+        <record_name>ServiceNow State to Sentinel</record_name>
+        <reverted_from/>
+        <source>4496ed102f422010b57ebab62799b61c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-26 12:54:43</sys_created_on>
+        <sys_id>889eabba2fcb2010b57ebab62799b699</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1786e99e86a0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-26 12:54:43</sys_updated_on>
+        <type>Application Menu</type>
+        <update_guid>c09eabbaddcb20100c03e571b1f74499</update_guid>
+        <update_guid_history>c09eabbaddcb20100c03e571b1f74499:189266306</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="ServiceNow State to Sentinel">f090ec9c2f132410b57ebab62799b612</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-30 13:45:38</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_application">sys_app_application</sys_db_object>
+        <sys_id>69768a4e779842168357afc1f394cf64</sys_id>
+        <sys_metadata>c89eabba2fcb2010b57ebab62799b696</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>ServiceNow State to Sentinel</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_app_application_c89eabba2fcb2010b57ebab62799b696</sys_update_name>
+        <sys_update_version display_value="sys_app_application_c89eabba2fcb2010b57ebab62799b696">889eabba2fcb2010b57ebab62799b699</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-30 13:45:38</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
