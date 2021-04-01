@@ -163,26 +163,7 @@ SentinelIncidents.prototype = {
 
 
                 // custom mapping
-                var ips = entitiesUtils.getEntitiesByType(incidentEntities, 'ip');
-                var hosts = entitiesUtils.getEntitiesByType(incidentEntities, 'host');
-                var users = entitiesUtils.getEntitiesByType(incidentEntities, 'account');
-
-                if(ips) {
-                    myObj.u_ips = (ips.map(function (ip) {return ip.details.address;})).join(', ');
-                    appUtils.log(myObj.u_ips);
-                }
-                
-                if(hosts) {
-                    myObj.u_hosts = (hosts.map(function (host) {return host.details.hostName;})).join(', ');
-                    appUtils.log(myObj.u_hosts);
-                }
-                
-                if(users) {
-                    myObj.u_impacted_users = (users.map(function (user) {return user.details.accountName;})).join(', ');
-                    appUtils.log(myObj.u_impacted_users);
-                }
-
-                // end custom mapping
+                customMapping.setCustomMapping(incidents[i],incidentAlerts, incidentEntities);
 
                 var html = entitiesUtils.entitiesToHtmlTable(incidentEntities);
                 if(html) {
@@ -301,6 +282,7 @@ SentinelIncidents.prototype = {
         var appUtils = new AppUtils();
         var entitiesUtils = new Entities();
         var alertsUtils = new Alerts();
+        var customMapping = new CustomMapping();
 
 
         for (var i = 0; i < modifiedIncidents.length; i++) {
@@ -358,25 +340,8 @@ SentinelIncidents.prototype = {
                             myObj.update();
                         }
 
-                        var ips = entitiesUtils.getEntitiesByType(incidentEntities, 'ip');
-                        var hosts = entitiesUtils.getEntitiesByType(incidentEntities, 'host');
-                        var users = entitiesUtils.getEntitiesByType(incidentEntities, 'account');
-
                         // Custom mapping
-                        if(ips) {
-                            myObj.u_ips = (ips.map(function (ip) {return ip.details.address;})).join(', ');
-                            appUtils.log(myObj.u_ips);
-                        }
-                        
-                        if(hosts) {
-                            myObj.u_hosts = (hosts.map(function (host) {return host.details.hostName;})).join(', ');
-                            appUtils.log(myObj.u_hosts);
-                        }
-                        
-                        if(users) {
-                            myObj.u_impacted_users = (users.map(function (user) {return user.details.accountName;})).join(', ');
-                            appUtils.log(myObj.u_impacted_users);
-                        }
+                        customMapping.setCustomMapping(incidents[i],incidentAlerts, incidentEntities);
 
                         // Update metadata counters
                         var incidentMetadata = appUtils.setIncidentMetadata(myObj.sys_id, incidentAlerts.length, incidentEntities.length);
@@ -524,13 +489,13 @@ SentinelIncidents.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-03-29 12:29:16</sys_created_on>
         <sys_id>6e358b332fc3e010b57ebab62799b6f6</sys_id>
-        <sys_mod_count>34</sys_mod_count>
+        <sys_mod_count>36</sys_mod_count>
         <sys_name>SentinelIncidents</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_script_include_6e358b332fc3e010b57ebab62799b6f6</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-03-31 15:49:08</sys_updated_on>
+        <sys_updated_on>2021-04-01 13:20:53</sys_updated_on>
     </sys_script_include>
 </record_update>
