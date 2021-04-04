@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.updateChangedIncidents</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>updateChangedIncidents</name>
+        <script><![CDATA[function updateChangedIncidents (environment, modifiedIncidents, modifiedLastSync) {
+    
+    var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
+    var incidentUniqueKey = gs.getProperty('x_556309_microsoft.incidentUniqueKey');
+    var updatedIncidents = 0;
+    var addedComments;
+    var myObj;
+    var changes;
+    var newComments = [];
+    var utils = new AppUtils();
+
+
+    for (var i = 0; i < modifiedIncidents.length; i++) {
+
+        addedComments = 0;
+        myObj = new GlideRecord(incidentTable);
+        myObj.addQuery(incidentUniqueKey, modifiedIncidents[i].name);
+        myObj.query();
+
+        if(myObj.next()) {
+            
+            changes = compareChanges(modifiedIncidents[i].properties, myObj);
+
+            if(Object.keys(changes).length > 0) {
+                
+                
+                if(changes.hasOwnProperty('severitySentinel')) {
+                    myObj.impact = utils.getServiceNowSeverity(incidents[i].properties.severity);
+                }
+
+                if(changes.hasOwnProperty('statusSentinel')) { 
+                    myObj.incident_state = utils.getServiceNowState(incidents[i].properties.status);
+                    if(incidents[i].properties.status.toLowerCase() == 'closed') {
+                        myObj.close_code = 'Closed/Resolved By Caller';
+                        myObj.close_notes = 'Incident was already closed in Sentinel. \nIncident classification: ' + incidents[i].properties.classification + '\nClose comment: ' + incidents[i].properties.classificationComment;
+                    }
+                }
+
+                if(changes.hasOwnProperty('ownerSentinel')) {
+                    if(modifiedIncidents[i].properties.owner.userPrincipalName) {
+                        myObj.assigned_to = modifiedIncidents[i].properties.owner.userPrincipalName;
+                    }
+                }
+                
+                try {
+                    myObj.setWorkflow(false);
+                    myObj.update();
+                    updatedIncidents++;
+                    utils.log('Incident ' + myObj.number + ' has been updated\nChanges: ' + JSON.stringify(changes));
+                }
+                catch(ex) {
+                    var message = ex.message;
+                    utils.log('ERROR: Incident ' + myObj.number + ' update failed\n' + message);
+                }
+            }
+            
+            // add comments sync
+            newComments = getIncidentComments(environment, modifiedIncidents[i].name, modifiedLastSync); //returns added comments since last sync
+            if(newComments.length > 0) {
+                newComments.forEach(function (comment) {
+                    myObj.work_notes = '[code]<div class="snow"><b>CreatedTimeUtc: </b>' + comment.properties.createdTimeUtc + '<br><b>Author: </b>' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '<p><b>Message:</b><br>' + comment.properties.message + '</p></div>[/code]';
+                    myObj.update();
+                    addedComments++;
+                });
+            }
+
+            // add new alerts sync
+            var htmlAlerts = getIncidentAlerts(environment, incidents[i].name, 'html', modifiedLastSync);
+            if(htmlAlerts) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]<h2>Alerts (updated)</h2>' + htmlAlerts + '[/code]';
+                myObj.update();
+
+                // Add incident entities to Snow
+                var htmlEntities = getIncidentEntities(environment, incidents[i].name, 'html');
+                if(htmlEntities) {
+                    myObj.setWorkflow(false);
+                    myObj.work_notes = '[code]<h2>Entities (updated)</h2>' + htmlEntities + '[/code]';
+                    myObj.update();
+                }
+
+                utils.log('Incident ' + myObj.number + ' has been updated with new alerts.');
+
+            }
+
+
+            if(addedComments > 0 || changes.length > 0) {
+                utils.log('Incident ' + myObj.number + ' has been updated\nChanges: ' + JSON.stringify(changes) + '\nNew comments: ' + addedComments);
+            }
+            
+        }
+        else {
+            var incidentToCreate = []; 
+			incidentToCreate.push(modifiedIncidents[i]);
+            createIncidents(environment, incidentToCreate);
+        }
+    }
+    
+    return updatedIncidents;
+}
+
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-10 12:36:40</sys_created_on>
+        <sys_id>8744c9bc2fda6010b57ebab62799b63b</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>updateChangedIncidents</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_8744c9bc2fda6010b57ebab62799b63b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-26 13:11:16</sys_updated_on>
+    </sys_script_include>
+<sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_8744c9bc2fda6010b57ebab62799b63b</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;
+    &lt;sys_script_include action="INSERT_OR_UPDATE"&gt;
+        &lt;access&gt;package_private&lt;/access&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;api_name&gt;x_556309_microsoft.updateChangedIncidents&lt;/api_name&gt;
+        &lt;caller_access/&gt;
+        &lt;client_callable&gt;false&lt;/client_callable&gt;
+        &lt;description/&gt;
+        &lt;name&gt;updateChangedIncidents&lt;/name&gt;
+        &lt;script&gt;&lt;![CDATA[function updateChangedIncidents (environment, modifiedIncidents, modifiedLastSync) {
+    
+    var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
+    var incidentUniqueKey = gs.getProperty('x_556309_microsoft.incidentUniqueKey');
+    var updatedIncidents = 0;
+    var addedComments;
+    var myObj;
+    var changes;
+    var newComments = [];
+    var utils = new AppUtils();
+
+
+    for (var i = 0; i &lt; modifiedIncidents.length; i++) {
+
+        addedComments = 0;
+        myObj = new GlideRecord(incidentTable);
+        myObj.addQuery(incidentUniqueKey, modifiedIncidents[i].name);
+        myObj.query();
+
+        if(myObj.next()) {
+            
+            changes = compareChanges(modifiedIncidents[i].properties, myObj);
+
+            if(Object.keys(changes).length &gt; 0) {
+                
+                
+                if(changes.hasOwnProperty('severitySentinel')) {
+                    myObj.impact = utils.getServiceNowSeverity(incidents[i].properties.severity);
+                }
+
+                if(changes.hasOwnProperty('statusSentinel')) { 
+                    myObj.incident_state = utils.getServiceNowState(incidents[i].properties.status);
+                    if(incidents[i].properties.status.toLowerCase() == 'closed') {
+                        myObj.close_code = 'Closed/Resolved By Caller';
+                        myObj.close_notes = 'Incident was already closed in Sentinel. \nIncident classification: ' + incidents[i].properties.classification + '\nClose comment: ' + incidents[i].properties.classificationComment;
+                    }
+                }
+
+                if(changes.hasOwnProperty('ownerSentinel')) {
+                    if(modifiedIncidents[i].properties.owner.userPrincipalName) {
+                        myObj.assigned_to = modifiedIncidents[i].properties.owner.userPrincipalName;
+                    }
+                }
+                
+                try {
+                    myObj.setWorkflow(false);
+                    myObj.update();
+                    updatedIncidents++;
+                    utils.log('Incident ' + myObj.number + ' has been updated\nChanges: ' + JSON.stringify(changes));
+                }
+                catch(ex) {
+                    var message = ex.message;
+                    utils.log('ERROR: Incident ' + myObj.number + ' update failed\n' + message);
+                }
+            }
+            
+            // add comments sync
+            newComments = getIncidentComments(environment, modifiedIncidents[i].name, modifiedLastSync); //returns added comments since last sync
+            if(newComments.length &gt; 0) {
+                newComments.forEach(function (comment) {
+                    myObj.work_notes = '[code]&lt;div class="snow"&gt;&lt;b&gt;CreatedTimeUtc: &lt;/b&gt;' + comment.properties.createdTimeUtc + '&lt;br&gt;&lt;b&gt;Author: &lt;/b&gt;' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '&lt;p&gt;&lt;b&gt;Message:&lt;/b&gt;&lt;br&gt;' + comment.properties.message + '&lt;/p&gt;&lt;/div&gt;[/code]';
+                    myObj.update();
+                    addedComments++;
+                });
+            }
+
+            // add new alerts sync
+            var htmlAlerts = getIncidentAlerts(environment, incidents[i].name, 'html', modifiedLastSync);
+            if(htmlAlerts) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]&lt;h2&gt;Alerts (updated)&lt;/h2&gt;' + htmlAlerts + '[/code]';
+                myObj.update();
+
+                // Add incident entities to Snow
+                var htmlEntities = getIncidentEntities(environment, incidents[i].name, 'html');
+                if(htmlEntities) {
+                    myObj.setWorkflow(false);
+                    myObj.work_notes = '[code]&lt;h2&gt;Entities (updated)&lt;/h2&gt;' + htmlEntities + '[/code]';
+                    myObj.update();
+                }
+
+                utils.log('Incident ' + myObj.number + ' has been updated with new alerts.');
+
+            }
+
+
+            if(addedComments &gt; 0 || changes.length &gt; 0) {
+                utils.log('Incident ' + myObj.number + ' has been updated\nChanges: ' + JSON.stringify(changes) + '\nNew comments: ' + addedComments);
+            }
+            
+        }
+        else {
+            var incidentToCreate = []; 
+			incidentToCreate.push(modifiedIncidents[i]);
+            createIncidents(environment, incidentToCreate);
+        }
+    }
+    
+    return updatedIncidents;
+}
+
+]]&gt;&lt;/script&gt;
+        &lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;
+        &lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;
+        &lt;sys_created_on&gt;2021-02-10 12:36:40&lt;/sys_created_on&gt;
+        &lt;sys_id&gt;8744c9bc2fda6010b57ebab62799b63b&lt;/sys_id&gt;
+        &lt;sys_mod_count&gt;16&lt;/sys_mod_count&gt;
+        &lt;sys_name&gt;updateChangedIncidents&lt;/sys_name&gt;
+        &lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;
+        &lt;sys_policy&gt;read&lt;/sys_policy&gt;
+        &lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;
+        &lt;sys_update_name&gt;sys_script_include_8744c9bc2fda6010b57ebab62799b63b&lt;/sys_update_name&gt;
+        &lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;
+        &lt;sys_updated_on&gt;2021-03-26 13:11:16&lt;/sys_updated_on&gt;
+    &lt;/sys_script_include&gt;
+&lt;/record_update&gt;</payload>
+        <payload_hash>-1350834565</payload_hash>
+        <record_name>updateChangedIncidents</record_name>
+        <reverted_from/>
+        <source>8f50b2382f132010b57ebab62799b660</source>
+        <source_table>sys_upgrade_history</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:30:53</sys_created_on>
+        <sys_id>9c60f2382f132010b57ebab62799b683</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1788da12ceb0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:30:53</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>1c60f238351320102f36e39bf66f8083</update_guid>
+        <update_guid_history>1c60f238351320102f36e39bf66f8083:0,450e2f4c4d9fe010d6d40b8dcf6ad73f:1222042995,fbd326fbed43e010c75cf440d2db1480:737252022,8d16ac43328f20100aaa865e1468b0ac:-1061503238,2cad140fce4f201019f689fd984d2256:2124857666,604a40cfc90f201076869e919e810abe:-2067301874,2252b3becbcb20103abf9607a4e55ce3:-349995127,2124df3ac18b201000e3799ceb36d14c:-803473678,43939b3a668b20106afb1a04ba591bf8:1473193447,8d61b4db6ae2201052b8dfa442c2d659:1626481583,db707c9bebe22010bea135c6676b8bfd:2138450137,ab5ea4db8fe220108aa6a0995aa4105d:-1805539387,d00be41b7de22010d80f8bc467d4b47e:-762617255,a539e4d7fce220100ccd3387e05ec614:39419217,19f72c17d7e2201050033995e45509cd:-1070028956,1135cc6e2e5a6010641eb0b8bd6bb275:-1424212354,53b9bf56035a6010075148464863e47b:1830098157,6b08e2115716e010d4383fb1b95294a0:1472208221,dd988970901e6010dc3b76f1fba085e7:-113762589,1378c530821e6010f56c2446fe02e7c0:401781767,56f749fcb3da6010946b7a57ca2b3515:-246621227,a72649fc2dda60100fc0769123313b36:-195284379,be744dbc15da60100e961cf79f4cc248:435108730</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:35:24</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>1ae2cff720f042b08efae05fb252a440</sys_id>
+        <sys_metadata>8744c9bc2fda6010b57ebab62799b63b</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>updateChangedIncidents</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_8744c9bc2fda6010b57ebab62799b63b</sys_update_name>
+        <sys_update_version display_value="sys_script_include_8744c9bc2fda6010b57ebab62799b63b">9c60f2382f132010b57ebab62799b683</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:35:24</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

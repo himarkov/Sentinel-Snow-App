@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="ServiceNow Severity to Sentinel" max_length="40" name="x_556309_microsoft_servicenow_incident_to_sentinel" sizeclass="3" type="collection">
+        <element label="Sentinel Severity" max_length="20" name="sentinel_severity" type="string"/>
+        <element label="ServiceNow Severity" max_length="10" name="servicenow_severity" type="string"/>
+    </element>
+</database>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="DELETE">
+        <active>true</active>
+        <application display_value="Sentinel Incident to ServiceNow">4cd29fa22f032010b57ebab62799b6e3</application>
+        <assessment/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>LIST</link_type>
+        <map_page/>
+        <mobile_title>Sentinel Incident to ServiceNows</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>x_556309_microsoft_sentinel_incident_to_servicenow</name>
+        <order/>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report/>
+        <roles>x_556309_microsoft.sentinel_incident_to_servicenow_user</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-25 16:14:59</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>c0d29fa22f032010b57ebab62799b6e6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Sentinel Incident to ServiceNows</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_app_module_c0d29fa22f032010b57ebab62799b6e6</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-25 16:14:59</sys_updated_on>
+        <timeline_page/>
+        <title>Sentinel Incident to ServiceNows</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_app_module_c0d29fa22f032010b57ebab62799b6e6</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module"><sys_app_module action="INSERT_OR_UPDATE"><active>true</active><application display_value="Sentinel Incident to ServiceNow">4cd29fa22f032010b57ebab62799b6e3</application><assessment/><device_type/><filter/><hint/><homepage/><image/><link_type>LIST</link_type><map_page/><mobile_title>Sentinel Incident to ServiceNows</mobile_title><mobile_view_name>Mobile</mobile_view_name><name>x_556309_microsoft_sentinel_incident_to_servicenow</name><order/><override_menu_roles>false</override_menu_roles><query/><report/><roles>x_556309_microsoft.sentinel_incident_to_servicenow_user</roles><sys_class_name>sys_app_module</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2021-03-25 16:14:59</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>c0d29fa22f032010b57ebab62799b6e6</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Sentinel Incident to ServiceNows</sys_name><sys_overrides/><sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package><sys_policy/><sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope><sys_update_name>sys_app_module_c0d29fa22f032010b57ebab62799b6e6</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2021-03-25 16:14:59</sys_updated_on><timeline_page/><title>Sentinel Incident to ServiceNows</title><uncancelable>false</uncancelable><view_name/><window_name/></sys_app_module></record_update>]]></payload>
+        <payload_hash>-130272336</payload_hash>
+        <record_name>Sentinel Incident to ServiceNows</record_name>
+        <reverted_from/>
+        <source>4496ed102f422010b57ebab62799b61c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-25 16:15:00</sys_created_on>
+        <sys_id>c0d29fa22f032010b57ebab62799b6e8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1786a2ae7b70000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-25 16:15:00</sys_updated_on>
+        <type>Module</type>
+        <update_guid>0cd29fa210032010aa36a120d661d9e7</update_guid>
+        <update_guid_history>0cd29fa210032010aa36a120d661d9e7:-130272336</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Sentinel Incident to ServiceNows">7f1393e22f032010b57ebab62799b68f</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-03-25 16:16:21</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_module">sys_app_module</sys_db_object>
+        <sys_id>17950e0b079b451490cc03ffa4238304</sys_id>
+        <sys_metadata>c0d29fa22f032010b57ebab62799b6e6</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Sentinel Incident to ServiceNows</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_app_module_c0d29fa22f032010b57ebab62799b6e6</sys_update_name>
+        <sys_update_version display_value="sys_app_module_c0d29fa22f032010b57ebab62799b6e6">c0d29fa22f032010b57ebab62799b6e8</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-25 16:16:21</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

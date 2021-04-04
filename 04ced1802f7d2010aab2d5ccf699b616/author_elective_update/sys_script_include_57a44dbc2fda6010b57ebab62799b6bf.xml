@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_556309_microsoft.createIncidents</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>createIncidents</name>
+        <script><![CDATA[//---------------------------------------------------------------
+// Create new ServiceNow incidents
+function createIncidents (environment, incidents) {
+
+    var callerId = environment.caller_id;
+    var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
+    var incidentUniqueKey = gs.getProperty('x_556309_microsoft.incidentUniqueKey');
+    var createdIncidents = 0;
+    var myObj;
+    var utils = new AppUtils();
+
+    for (var i = 0; i < incidents.length; i++) {
+
+        myObj = new GlideRecord(incidentTable);
+
+        myObj.addQuery(incidentUniqueKey, incidents[i].name);
+        myObj.query();
+
+        if(!myObj.next()) {
+            myObj.initialize();
+            myObj.short_description = incidents[i].properties.title + ' - Incident number: ' + incidents[i].properties.incidentNumber;
+            myObj.description = 'Environment: ' + environment.environment_name + '\nAzure Sentinel incident: ' + incidents[i].properties.incidentNumber + '\nDescription: ' + incidents[i].properties.description + '\nProducts: ' + incidents[i].properties.additionalData.alertProductNames.join() + '\nTactics: ' + incidents[i].properties.additionalData.tactics.join() + '\nIncident link: ' + incidents[i].properties.incidentUrl + '\nEnvironmentID: ' + environment.environment_id;
+
+            myObj.impact = utils.getServiceNowSeverity(incidents[i].properties.severity); // get the corresponding severity
+
+            myObj.incident_state = utils.getServiceNowState(incidents[i].properties.status); // get the corresponding state
+            if(incidents[i].properties.status.toLowerCase() == 'closed') {
+                myObj.close_code = 'Closed/Resolved By Caller';
+                myObj.close_notes = 'Incident was already closed in Sentinel. \nIncident classification: ' + incidents[i].properties.classification + '\nClose comment: ' + incidents[i].properties.classificationComment;
+            }
+
+            // If owner email empty, use UPN
+            if(incidents[i].properties.owner.email) {
+                myObj.assigned_to = incidents[i].properties.owner.email;
+            }
+            else {
+                myObj.assigned_to = incidents[i].properties.owner.userPrincipalName;
+            }
+            
+            // Correlation id is used to link the SNOW incident to Sentinel incident
+            myObj.setValue(incidentUniqueKey, incidents[i].name);
+            myObj.caller_id = callerId;
+            
+            // record contains the snow incident id and incident is saved in the database
+            try {
+                var record = myObj.insert();
+                createdIncidents++;
+            }
+            catch(ex) {
+                var message = ex.message;
+                utils.log('ERROR inserting incident: ' + message);
+            }
+
+            // Add Sentinel incident url link in work notes
+            myObj = new GlideRecord(incidentTable);
+            myObj.get(record);
+            myObj.setWorkflow(false);
+            myObj.work_notes = "[code]<div class=\"snow\"><a href='" + incidents[i].properties.incidentUrl + "' target='_blank'>Azure Sentinel incident link</a></div>[/code]";
+            myObj.update();
+
+            // Add incident alerts details
+			var html = getIncidentAlerts(environment, incidents[i].name, 'html');
+            if(html) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]<h2>Alerts</h2>' + html + '[/code]';
+                myObj.update();
+            }
+
+            // Add incident entities to Snow
+            var html = getIncidentEntities(environment, incidents[i].name, 'html');
+            if(html) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]<h2>Entities</h2>' + html + '[/code]';
+                myObj.update();
+            }
+            //Add Sentinel comments to work notes
+            var comments = getIncidentComments(environment, incidents[i].name);
+            if(comments) {
+                comments.forEach(function (comment){
+                    myObj.work_notes = '[code]<div class="snow"><b>CreatedTimeUtc: </b>' + comment.properties.createdTimeUtc + '<br><b>Author: </b>' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '<p><b>Message:</b><br>' + comment.properties.message + '</p></div>[/code]';
+                    myObj.update();
+                });
+
+            }
+
+            // Adds ServiceNow incident number in Sentinel tags
+            var labelIncidentId = [{
+                "labelName": myObj.number.toString(),
+                "labelType": "User"
+            }];
+            var properties = incidents[i].properties;
+            properties.labels = labelIncidentId;
+            updateSentinelIncident(environment, incidents[i].name, properties);
+            
+            // Adds SNOW incident link in Sentinel
+            try {
+                var incidentUrl = createUrlForObject(incidentTable, record);
+                var msg = '<div class="snow">' + incidentUrl + '</div>';
+                var httpStatus = addIncidentComments(environment, incidents[i].name, msg);
+                if(httpStatus != 201) {
+                    utils.log('ERROR: incident ' + myObj.number  + '\n' + httpStatus + ' - Comment not added to Sentinel\n' + msg);
+                }
+
+            }
+            catch (ex) {
+                var message = ex.message;
+                utils.log('ERROR adding SNOW incident link to Sentinel: ' + message);
+            }
+            
+        }
+
+    }
+
+    return createdIncidents;
+
+}
+
+// Creates an url to the created ServiceNow record
+function createUrlForObject(table_name, sys_id){
+    var url = gs.getProperty('glide.servlet.uri') + 'nav_to.do?uri=%2F' + table_name + '.do?sys_id=' + sys_id;
+    return "<a href=" +  url + ">ServiceNow incident link</a>";
+}
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-10 12:38:23</sys_created_on>
+        <sys_id>57a44dbc2fda6010b57ebab62799b6bf</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>createIncidents</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_script_include_57a44dbc2fda6010b57ebab62799b6bf</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-03-26 13:09:47</sys_updated_on>
+    </sys_script_include>
+<sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
+        <file_path/>
+        <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
+        <instance_name>dev51215</instance_name>
+        <name>sys_script_include_57a44dbc2fda6010b57ebab62799b6bf</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;
+    &lt;sys_script_include action="INSERT_OR_UPDATE"&gt;
+        &lt;access&gt;package_private&lt;/access&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;api_name&gt;x_556309_microsoft.createIncidents&lt;/api_name&gt;
+        &lt;caller_access/&gt;
+        &lt;client_callable&gt;false&lt;/client_callable&gt;
+        &lt;description/&gt;
+        &lt;name&gt;createIncidents&lt;/name&gt;
+        &lt;script&gt;&lt;![CDATA[//---------------------------------------------------------------
+// Create new ServiceNow incidents
+function createIncidents (environment, incidents) {
+
+    var callerId = environment.caller_id;
+    var incidentTable = gs.getProperty('x_556309_microsoft.incidentTableName');
+    var incidentUniqueKey = gs.getProperty('x_556309_microsoft.incidentUniqueKey');
+    var createdIncidents = 0;
+    var myObj;
+    var utils = new AppUtils();
+
+    for (var i = 0; i &lt; incidents.length; i++) {
+
+        myObj = new GlideRecord(incidentTable);
+
+        myObj.addQuery(incidentUniqueKey, incidents[i].name);
+        myObj.query();
+
+        if(!myObj.next()) {
+            myObj.initialize();
+            myObj.short_description = incidents[i].properties.title + ' - Incident number: ' + incidents[i].properties.incidentNumber;
+            myObj.description = 'Environment: ' + environment.environment_name + '\nAzure Sentinel incident: ' + incidents[i].properties.incidentNumber + '\nDescription: ' + incidents[i].properties.description + '\nProducts: ' + incidents[i].properties.additionalData.alertProductNames.join() + '\nTactics: ' + incidents[i].properties.additionalData.tactics.join() + '\nIncident link: ' + incidents[i].properties.incidentUrl + '\nEnvironmentID: ' + environment.environment_id;
+
+            myObj.impact = utils.getServiceNowSeverity(incidents[i].properties.severity); // get the corresponding severity
+
+            myObj.incident_state = utils.getServiceNowState(incidents[i].properties.status); // get the corresponding state
+            if(incidents[i].properties.status.toLowerCase() == 'closed') {
+                myObj.close_code = 'Closed/Resolved By Caller';
+                myObj.close_notes = 'Incident was already closed in Sentinel. \nIncident classification: ' + incidents[i].properties.classification + '\nClose comment: ' + incidents[i].properties.classificationComment;
+            }
+
+            // If owner email empty, use UPN
+            if(incidents[i].properties.owner.email) {
+                myObj.assigned_to = incidents[i].properties.owner.email;
+            }
+            else {
+                myObj.assigned_to = incidents[i].properties.owner.userPrincipalName;
+            }
+            
+            // Correlation id is used to link the SNOW incident to Sentinel incident
+            myObj.setValue(incidentUniqueKey, incidents[i].name);
+            myObj.caller_id = callerId;
+            
+            // record contains the snow incident id and incident is saved in the database
+            try {
+                var record = myObj.insert();
+                createdIncidents++;
+            }
+            catch(ex) {
+                var message = ex.message;
+                utils.log('ERROR inserting incident: ' + message);
+            }
+
+            // Add Sentinel incident url link in work notes
+            myObj = new GlideRecord(incidentTable);
+            myObj.get(record);
+            myObj.setWorkflow(false);
+            myObj.work_notes = "[code]&lt;div class=\"snow\"&gt;&lt;a href='" + incidents[i].properties.incidentUrl + "' target='_blank'&gt;Azure Sentinel incident link&lt;/a&gt;&lt;/div&gt;[/code]";
+            myObj.update();
+
+            // Add incident alerts details
+			var html = getIncidentAlerts(environment, incidents[i].name, 'html');
+            if(html) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]&lt;h2&gt;Alerts&lt;/h2&gt;' + html + '[/code]';
+                myObj.update();
+            }
+
+            // Add incident entities to Snow
+            var html = getIncidentEntities(environment, incidents[i].name, 'html');
+            if(html) {
+                myObj.setWorkflow(false);
+                myObj.work_notes = '[code]&lt;h2&gt;Entities&lt;/h2&gt;' + html + '[/code]';
+                myObj.update();
+            }
+            //Add Sentinel comments to work notes
+            var comments = getIncidentComments(environment, incidents[i].name);
+            if(comments) {
+                comments.forEach(function (comment){
+                    myObj.work_notes = '[code]&lt;div class="snow"&gt;&lt;b&gt;CreatedTimeUtc: &lt;/b&gt;' + comment.properties.createdTimeUtc + '&lt;br&gt;&lt;b&gt;Author: &lt;/b&gt;' + comment.properties.author.name + '(' + comment.properties.author.userPrincipalName + ')' + '&lt;p&gt;&lt;b&gt;Message:&lt;/b&gt;&lt;br&gt;' + comment.properties.message + '&lt;/p&gt;&lt;/div&gt;[/code]';
+                    myObj.update();
+                });
+
+            }
+
+            // Adds ServiceNow incident number in Sentinel tags
+            var labelIncidentId = [{
+                "labelName": myObj.number.toString(),
+                "labelType": "User"
+            }];
+            var properties = incidents[i].properties;
+            properties.labels = labelIncidentId;
+            updateSentinelIncident(environment, incidents[i].name, properties);
+            
+            // Adds SNOW incident link in Sentinel
+            try {
+                var incidentUrl = createUrlForObject(incidentTable, record);
+                var msg = '&lt;div class="snow"&gt;' + incidentUrl + '&lt;/div&gt;';
+                var httpStatus = addIncidentComments(environment, incidents[i].name, msg);
+                if(httpStatus != 201) {
+                    utils.log('ERROR: incident ' + myObj.number  + '\n' + httpStatus + ' - Comment not added to Sentinel\n' + msg);
+                }
+
+            }
+            catch (ex) {
+                var message = ex.message;
+                utils.log('ERROR adding SNOW incident link to Sentinel: ' + message);
+            }
+            
+        }
+
+    }
+
+    return createdIncidents;
+
+}
+
+// Creates an url to the created ServiceNow record
+function createUrlForObject(table_name, sys_id){
+    var url = gs.getProperty('glide.servlet.uri') + 'nav_to.do?uri=%2F' + table_name + '.do?sys_id=' + sys_id;
+    return "&lt;a href=" +  url + "&gt;ServiceNow incident link&lt;/a&gt;";
+}
+]]&gt;&lt;/script&gt;
+        &lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;
+        &lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;
+        &lt;sys_created_on&gt;2021-02-10 12:38:23&lt;/sys_created_on&gt;
+        &lt;sys_id&gt;57a44dbc2fda6010b57ebab62799b6bf&lt;/sys_id&gt;
+        &lt;sys_mod_count&gt;22&lt;/sys_mod_count&gt;
+        &lt;sys_name&gt;createIncidents&lt;/sys_name&gt;
+        &lt;sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_package&gt;
+        &lt;sys_policy&gt;read&lt;/sys_policy&gt;
+        &lt;sys_scope display_value="Microsoft Azure Sentinel"&gt;04ced1802f7d2010aab2d5ccf699b616&lt;/sys_scope&gt;
+        &lt;sys_update_name&gt;sys_script_include_57a44dbc2fda6010b57ebab62799b6bf&lt;/sys_update_name&gt;
+        &lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;
+        &lt;sys_updated_on&gt;2021-03-26 13:09:47&lt;/sys_updated_on&gt;
+    &lt;/sys_script_include&gt;
+&lt;/record_update&gt;</payload>
+        <payload_hash>-124168583</payload_hash>
+        <record_name>createIncidents</record_name>
+        <reverted_from/>
+        <source>8f50b2382f132010b57ebab62799b660</source>
+        <source_table>sys_upgrade_history</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:30:53</sys_created_on>
+        <sys_id>d860f2382f132010b57ebab62799b67a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1788da12c520000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:30:53</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>5860f23870132010e446eadcf8c9b27a</update_guid>
+        <update_guid_history>5860f23870132010e446eadcf8c9b27a:0,a29da74ca89fe01083a0e6f1fd5273f2:-499371409,6ee26e7b7643e010391bf0993d4a0d63:1027158217,3ac56843ef8f20107db9c3b887da37ef:1373340220,7a356043e88f20100e5a963c466b4015:-437697539,7483a403998f2010605bf30973d095a6:107152745,e641ac4f784f2010b9c1131482821ff0:1288392831,0cc0248faa4f20108b039376f625ac77:-299433669,830c500bb94f2010fc0b9d9ee89acd92:469427656,98c90c0fad0f2010756bf9a8335f45a5:-305963564,7c023bbe0acb20108ce031d3e4b1727b:-1410104113,4dd053f6e68b20109d12dc1178d99b3e:1505132732,f0c0fc1f26e22010db7a76bbe0d1e0f6:607968396,e364c31bd61224106c22d9cd368b7d71:-1607112941,b3804f57e7122410876c594fc941072d:1071328363,0d0f7e17ac122410db47bcb8616d1d08:-689741169,db4c10b24956a010cc2bdadcdefa1c2d:1071328363,72f03f6613d2a010097c96bb88c8239c:0,e1a0b766b4d2a01000f1461463af9275:1071328363,b200bf2675d2a010915518dc242f4a34:0,9fbfe726f1d2a0102c1663cb1fdba10d:-1239694231,bbe394e6769a601013cdacc6d7f173a0:-1707790003,e661dc66689a6010f82e740732dbe28c:-1689126750,cd8a08224a9a6010d71ef1aa02280335:940684345,a4c748eedc5a6010fba18090f5b24fd7:179247099,3315c46e1f5a60107d3f4af0a3e2da2c:-38916785,9f8180eab05a6010e9fcee1d6941fdb4:591265117,ed6eff1aa55a6010a5d876fa7db03342:1800420711,87097fd2f65a6010f698ac725304fc76:-488101983,e0bd2f5e191a6010ed11082628918161:1990048236,78947e59ce16e0104712abd703ac620a:-1843502642,eef37e55e416e010977a8f928b06a2eb:206583546,5316ee9d47d2e010f3800a47ac3c7c50:-1025907112,bb090dfc13da6010270533f0ce1b0ad2:-1774084500,0096c9fcf3da6010d24c010660d089d5:-2001967530,fbd441fc95da6010a682e5683380d655:-1774084500</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-01 13:34:15</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>0be4e7d2429a49b0b5572f06bb7b2610</sys_id>
+        <sys_metadata>57a44dbc2fda6010b57ebab62799b6bf</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>createIncidents</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
+        <sys_update_name>sys_script_include_57a44dbc2fda6010b57ebab62799b6bf</sys_update_name>
+        <sys_update_version display_value="sys_script_include_57a44dbc2fda6010b57ebab62799b6bf">d860f2382f132010b57ebab62799b67a</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-01 13:34:15</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

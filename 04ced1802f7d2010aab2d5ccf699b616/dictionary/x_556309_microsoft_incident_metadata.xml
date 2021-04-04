@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Incident Metadata" max_length="40" name="x_556309_microsoft_incident_metadata" sizeclass="3" type="collection">
+        <element default="0" display="true" label="Alerts Nbr" max_length="40" name="alerts_nbr" type="integer"/>
+        <element default="0" label="Entities Nbr" max_length="40" name="entities_nbr" type="integer"/>
+        <element label="Incident ID" max_length="40" name="incident_id" type="string"/>
+        <index name="index">
+            <element name="incident_id"/>
+        </index>
+    </element>
+</database>

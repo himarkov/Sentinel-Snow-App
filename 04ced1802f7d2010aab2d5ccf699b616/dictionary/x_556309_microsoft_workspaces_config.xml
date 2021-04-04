@@ -4,6 +4,8 @@
         <element default="Notes about this Azure Sentinel workspace configuration" label="Description" max_length="200" name="description" type="string"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Environment ID" max_length="40" name="environment_id" type="string"/>
         <element default="Name to identify the workspace purpose/environment" label="Environment Name" mandatory="true" max_length="100" name="environment_name" type="string"/>
+        <element label="modifiedIncidentsLastSync" max_length="50" name="modifiedincidentslastsync" type="string"/>
+        <element label="newIncidentsLastSync" max_length="50" name="newincidentslastsync" type="string"/>
         <element default="Az Sentinel OAuth app" label="OAuth provider" mandatory="true" max_length="40" name="oauth_provider" type="string"/>
         <element default="Azure Sentinel Workspace Resource group name" label="Resource Group" mandatory="true" max_length="200" name="resource_group" type="string"/>
         <element default="Azure Sentinel Workspace subscription ID" label="Subscription" mandatory="true" max_length="100" name="subscription" type="string"/>

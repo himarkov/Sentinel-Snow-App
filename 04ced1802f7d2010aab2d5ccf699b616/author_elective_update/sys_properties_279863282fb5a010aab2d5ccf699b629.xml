@@ -11,49 +11,75 @@
         <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
         <sys_created_on>2021-01-16 09:25:08</sys_created_on>
         <sys_id>279863282fb5a010aab2d5ccf699b629</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>0</sys_mod_count>
         <sys_name>x_556309_microsoft.callerId</sys_name>
         <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
         <sys_policy/>
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_update_name>sys_properties_279863282fb5a010aab2d5ccf699b629</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-01-27 16:01:09</sys_updated_on>
+        <sys_updated_by>sebmolendijk@hotmail.com</sys_updated_by>
+        <sys_updated_on>2021-01-16 09:25:08</sys_updated_on>
         <type>string</type>
         <value>AzSentinel Bot</value>
         <write_roles>x_556309_microsoft.azsentinel_admin</write_roles>
     </sys_properties>
     <sys_translated_text action="DELETE" query="documentkey=279863282fb5a010aab2d5ccf699b629"/>
-    <sys_update_version action="INSERT_OR_UPDATE">
+<sys_update_version action="INSERT_OR_UPDATE">
         <action>DELETE</action>
         <application display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</application>
         <file_path/>
         <instance_id>84371e5edb24df80b2e05d00cf96197a</instance_id>
         <instance_name>dev51215</instance_name>
         <name>sys_properties_279863282fb5a010aab2d5ccf699b629</name>
-        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties"><sys_properties action="INSERT_OR_UPDATE"><choices/><description/><ignore_cache>false</ignore_cache><is_private>false</is_private><name>x_556309_microsoft.callerId</name><read_roles>x_556309_microsoft.azsentinel_admin</read_roles><suffix>callerId</suffix><sys_class_name>sys_properties</sys_class_name><sys_created_by>sebmolendijk@hotmail.com</sys_created_by><sys_created_on>2021-01-16 09:25:08</sys_created_on><sys_id>279863282fb5a010aab2d5ccf699b629</sys_id><sys_mod_count>2</sys_mod_count><sys_name>x_556309_microsoft.callerId</sys_name><sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package><sys_policy/><sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope><sys_update_name>sys_properties_279863282fb5a010aab2d5ccf699b629</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2021-01-27 16:01:09</sys_updated_on><type>string</type><value>AzSentinel Bot</value><write_roles>x_556309_microsoft.azsentinel_admin</write_roles></sys_properties><sys_translated_text action="delete_multiple" query="documentkey=279863282fb5a010aab2d5ccf699b629"/></record_update>]]></payload>
-        <payload_hash>-492960144</payload_hash>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description/>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_556309_microsoft.callerId</name>
+        <read_roles>x_556309_microsoft.azsentinel_admin</read_roles>
+        <suffix>callerId</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>sebmolendijk@hotmail.com</sys_created_by>
+        <sys_created_on>2021-01-16 09:25:08</sys_created_on>
+        <sys_id>279863282fb5a010aab2d5ccf699b629</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_556309_microsoft.callerId</sys_name>
+        <sys_package display_value="Microsoft Azure Sentinel" source="x_556309_microsoft">04ced1802f7d2010aab2d5ccf699b616</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
+        <sys_update_name>sys_properties_279863282fb5a010aab2d5ccf699b629</sys_update_name>
+        <sys_updated_by>sebmolendijk@hotmail.com</sys_updated_by>
+        <sys_updated_on>2021-01-16 09:25:08</sys_updated_on>
+        <type>string</type>
+        <value>AzSentinel Bot</value>
+        <write_roles>x_556309_microsoft.azsentinel_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=279863282fb5a010aab2d5ccf699b629"/>
+</record_update>]]></payload>
+        <payload_hash>-1410562652</payload_hash>
         <record_name>x_556309_microsoft.callerId</record_name>
         <reverted_from/>
-        <source>4496ed102f422010b57ebab62799b61c</source>
-        <source_table>sys_update_set</source_table>
+        <source>874727ae2f92a010b57ebab62799b6cb</source>
+        <source_table>sys_upgrade_history</source_table>
         <state>previous</state>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-01-27 16:01:11</sys_created_on>
-        <sys_id>8e0de5182f422010b57ebab62799b634</sys_id>
+        <sys_created_on>2021-02-16 10:57:27</sys_created_on>
+        <sys_id>8c5767ae2f92a010b57ebab62799b6c9</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_recorded_at>1774493c8c30000001</sys_recorded_at>
+        <sys_recorded_at>177aa7ce43a0000001</sys_recorded_at>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-01-27 16:01:11</sys_updated_on>
+        <sys_updated_on>2021-02-16 10:57:27</sys_updated_on>
         <type>System Property</type>
-        <update_guid>0e0de518de422010d04e892fb68b7e33</update_guid>
-        <update_guid_history>0e0de518de422010d04e892fb68b7e33:-492960144,b0e7e990cd4220101da41dddd619e0b7:426784977,e376e550464220105dbd610690645f6d:-1410562652</update_guid_history>
+        <update_guid>0c5767aed692a0108f10ccc4bb324ec9</update_guid>
+        <update_guid_history>0c5767aed692a0108f10ccc4bb324ec9:0,0eb62f6e1c92a010fc05fddbca1e5766:-520944813,0e0de518de422010d04e892fb68b7e33:-492960144,b0e7e990cd4220101da41dddd619e0b7:426784977,e376e550464220105dbd610690645f6d:-1410562652</update_guid_history>
     </sys_update_version>
     <sys_metadata_delete action="INSERT_OR_UPDATE">
         <sys_audit_delete/>
         <sys_class_name>sys_metadata_delete</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-02-16 10:54:51</sys_created_on>
+        <sys_created_on>2021-02-16 11:33:04</sys_created_on>
         <sys_db_object display_value="" name="sys_properties">sys_properties</sys_db_object>
         <sys_id>3268a9ef891f4230b4d8ca353bd479f1</sys_id>
         <sys_metadata>279863282fb5a010aab2d5ccf699b629</sys_metadata>
@@ -65,8 +91,8 @@
         <sys_scope display_value="Microsoft Azure Sentinel">04ced1802f7d2010aab2d5ccf699b616</sys_scope>
         <sys_scope_delete display_value="">078ab734c9c1414681b285abb723e544</sys_scope_delete>
         <sys_update_name>sys_properties_279863282fb5a010aab2d5ccf699b629</sys_update_name>
-        <sys_update_version display_value="sys_properties_279863282fb5a010aab2d5ccf699b629">8e0de5182f422010b57ebab62799b634</sys_update_version>
+        <sys_update_version display_value="sys_properties_279863282fb5a010aab2d5ccf699b629">8c5767ae2f92a010b57ebab62799b6c9</sys_update_version>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-02-16 10:54:51</sys_updated_on>
+        <sys_updated_on>2021-02-16 11:33:04</sys_updated_on>
     </sys_metadata_delete>
 </record_update>
